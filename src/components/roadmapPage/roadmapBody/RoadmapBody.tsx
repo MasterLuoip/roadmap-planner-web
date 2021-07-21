@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
-import { RoadmapItem } from '../roadmapItem/RoadmapItem';
-import { RoadmapBodyWrapper, RoadmapItemWrapper } from './RoadmapBodyStyle';
+import { Button, Grid } from '@material-ui/core';
 import { nanoid } from 'nanoid';
+import React, { useState } from 'react';
+import { TaskSectionView } from './taskSidePageView/TaskSectionView';
+import {
+  RoadmapBodyGridContainer,
+  RoadmapItemGridWrapper,
+} from './RoadmapBodyStyle';
+import { RoadmapItem } from './roadmapItem/RoadmapItem';
+import { TaskSidePageView } from './taskSidePageView/TaskSidePageView';
 
 type ItemType = {
   id: string;
@@ -9,9 +15,7 @@ type ItemType = {
 };
 
 export function RoadmapBody() {
-  const [itemList, setItemList] = useState<ItemType[]>([
-    { id: nanoid(), title: 'create your first item' },
-  ]);
+  const [itemList, setItemList] = useState<ItemType[]>([]);
 
   const onAddClick = (index: number) => {
     setItemList((itemList) => {
@@ -40,8 +44,17 @@ export function RoadmapBody() {
   };
 
   return (
-    <RoadmapBodyWrapper>
-      <RoadmapItemWrapper>
+    <RoadmapBodyGridContainer container>
+      <RoadmapItemGridWrapper item xs={4}>
+        {itemList.length === 0 && (
+          <Button
+            variant='contained'
+            color='secondary'
+            onClick={() => onAddClick(0)}
+          >
+            Add you first item
+          </Button>
+        )}
         {itemList.map((item, index) => {
           return (
             <RoadmapItem
@@ -55,7 +68,10 @@ export function RoadmapBody() {
             />
           );
         })}
-      </RoadmapItemWrapper>
-    </RoadmapBodyWrapper>
+      </RoadmapItemGridWrapper>
+      <Grid item xs>
+        <TaskSidePageView />
+      </Grid>
+    </RoadmapBodyGridContainer>
   );
 }

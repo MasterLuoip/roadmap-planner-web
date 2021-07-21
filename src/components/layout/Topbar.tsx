@@ -6,7 +6,7 @@ import { AppBarWrapper, TopbarTitle } from './TopbarStyle';
 
 export function Topbar(): JSX.Element {
   return (
-    <AppBarWrapper position='static' color='primary'>
+    <AppBarWrapper position='static'>
       <Toolbar>
         <IconButton edge='start' color='inherit' aria-label='menu'>
           <MenuIcon />

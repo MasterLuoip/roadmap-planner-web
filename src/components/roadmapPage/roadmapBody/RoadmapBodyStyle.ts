@@ -1,12 +1,13 @@
+import { Grid } from '@material-ui/core';
 import styled from 'styled-components';
 
-export const RoadmapBodyWrapper = styled.div`
-  display: flex;
-  justify-content: center;
+export const RoadmapBodyGridContainer = styled(Grid)`
+  height: 100%;
 `;
 
-export const RoadmapItemWrapper = styled.div`
-  * {
-    /* margin-bottom: 20px; */
-  }
+export const RoadmapItemGridWrapper = styled(Grid)`
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;

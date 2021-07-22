@@ -1,10 +1,10 @@
-import { Button, Grid } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { nanoid } from 'nanoid';
 import React, { useState } from 'react';
-import { TaskSectionView } from './taskSidePageView/TaskSectionView';
 import {
   RoadmapBodyGridContainer,
   RoadmapItemGridWrapper,
+  SideGrid,
 } from './RoadmapBodyStyle';
 import { RoadmapItem } from './roadmapItem/RoadmapItem';
 import { TaskSidePageView } from './taskSidePageView/TaskSidePageView';
@@ -69,9 +69,9 @@ export function RoadmapBody() {
           );
         })}
       </RoadmapItemGridWrapper>
-      <Grid item xs>
+      <SideGrid item xs>
         <TaskSidePageView />
-      </Grid>
+      </SideGrid>
     </RoadmapBodyGridContainer>
   );
 }

@@ -13,6 +13,7 @@ import {
   FormControlLabel,
   IconButton,
 } from '@material-ui/core';
+import { SectionWrapper } from './TaskSectionViewStyle';
 
 export type TaskSection = {
   id: string;
@@ -41,13 +42,41 @@ export function TaskSectionView({
   function handleEditorChange({ html, text }: { html: string; text: string }) {
     setMdText(text);
     onTextChange(text);
-    console.log('handleEditorChange', html, text);
   }
   return (
-    <div>
-      <IconButton>
-        <AddIcon style={{ color: 'green' }} />
-      </IconButton>
+    <SectionWrapper>
+      <div>
+        {showEditor ? (
+          <>
+            <div>
+              <Button
+                variant='outlined'
+                style={{
+                  backgroundColor: '#ff6d00',
+                  color: 'white',
+                  marginBottom: '20px',
+                }}
+                onClick={() => setShowEditor(false)}
+              >
+                Save
+              </Button>
+            </div>
+            <div>
+              <IconButton size='small' style={{ marginLeft: '-5px' }}>
+                <AddIcon style={{ color: 'green' }} />
+              </IconButton>
+            </div>
+          </>
+        ) : (
+          <IconButton
+            component='span'
+            onClick={() => setShowEditor(true)}
+            style={{ marginLeft: '-13px' }}
+          >
+            <EditIcon color='primary' />
+          </IconButton>
+        )}
+      </div>
       <FormControl component='fieldset'>
         {tasks.map((task, index) => (
           <FormControlLabel
@@ -93,23 +122,10 @@ export function TaskSectionView({
       )}
 
       <div>
-        {showEditor ? (
-          <Button
-            variant='outlined'
-            style={{ backgroundColor: '#ff6d00', color: 'white' }}
-            onClick={() => setShowEditor(false)}
-          >
-            Save
-          </Button>
-        ) : (
-          <IconButton component='span' onClick={() => setShowEditor(true)}>
-            <EditIcon style={{ color: '#ff6d00' }} />
-          </IconButton>
-        )}
         <div>
           <ReactMarkdown children={mdText} />
         </div>
       </div>
-    </div>
+    </SectionWrapper>
   );
 }

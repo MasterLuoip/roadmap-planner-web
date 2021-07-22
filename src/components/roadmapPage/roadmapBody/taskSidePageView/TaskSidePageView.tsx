@@ -1,7 +1,8 @@
 import { Button, Divider } from '@material-ui/core';
-import React from 'react';
-import { useState } from 'react';
-import { TaskSection, TaskSectionView } from './TaskSectionView';
+import React, { useState } from 'react';
+import {
+  TaskSectionView
+} from './taskSectionView/TaskSectionView';
 import { TaskSidePageViewWrapper } from './TaskSidePageViewStyle';
 
 const mockSections = {
@@ -48,6 +49,7 @@ export function TaskSidePageView(): JSX.Element {
     <TaskSidePageViewWrapper>
       {Object.values(sections).map(({ id, tasks, text }, index) => (
         <React.Fragment key={id}>
+          <Divider />
           <TaskSectionView
             tasks={tasks}
             text={text}
@@ -56,10 +58,12 @@ export function TaskSidePageView(): JSX.Element {
             }
             onTextChange={(text) => onTextChange(text, id)}
           />
-          <Divider />
         </React.Fragment>
       ))}
-      <Button variant='outlined'>Add new section</Button>
+      <Divider />
+      <Button variant='outlined' style={{ marginTop: '30px' }}>
+        Add new section
+      </Button>
     </TaskSidePageViewWrapper>
   );
 }

@@ -2,7 +2,7 @@ import { Grid } from '@material-ui/core';
 import styled from 'styled-components';
 
 export const RoadmapBodyGridContainer = styled(Grid)`
-  height: 100%;
+  flex: 1 auto;
 `;
 
 export const RoadmapItemGridWrapper = styled(Grid)`
@@ -10,4 +10,9 @@ export const RoadmapItemGridWrapper = styled(Grid)`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+export const SideGrid = styled(Grid)`
+  height: 100%;
+  background-color: white;
 `;

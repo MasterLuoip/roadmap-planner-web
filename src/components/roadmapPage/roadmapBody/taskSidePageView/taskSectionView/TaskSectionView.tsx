@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MdEditor from 'react-markdown-editor-lite';
 // import style manually
 import ReactMarkdown from 'react-markdown';
 import 'react-markdown-editor-lite/lib/index.css';
 import AddIcon from '@material-ui/icons/Add';
-
+import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
 import {
   Button,
@@ -12,37 +12,72 @@ import {
   FormControl,
   FormControlLabel,
   IconButton,
+  TextField,
 } from '@material-ui/core';
 import { SectionWrapper } from './TaskSectionViewStyle';
-
-export type TaskSection = {
-  id: string;
-  tasks: {
-    completed: boolean;
-    label: string;
-  }[];
-  text: string;
-};
+import { TaskSection } from '../TaskSidePageView';
+import { nanoid } from 'nanoid';
 
 type TaskSectionComponentProp = {
-  tasks: TaskSection['tasks'];
-  text: string;
-  onTaskCheck: (value: boolean, taskIndex: number) => void;
-  onTextChange: (text: string) => void;
+  section: Omit<TaskSection, 'id'>;
+  onSectionChange: (newSection: Omit<TaskSection, 'id'>) => void;
 };
 
 export function TaskSectionView({
-  tasks,
-  text,
-  onTaskCheck,
-  onTextChange,
+  section,
+  onSectionChange,
 }: TaskSectionComponentProp): JSX.Element {
-  const [mdText, setMdText] = useState(text);
+  // const [section, setSection] = useState(section);
+  const [mdText, setMdText] = useState(section.text);
+  const [tasks, setTasks] = useState(section.tasks);
+  // const [mdText, setMdText] = useState(section.text);
   const [showEditor, setShowEditor] = useState(false);
-  function handleEditorChange({ html, text }: { html: string; text: string }) {
+
+  useEffect(() => {
+    const newSection: Omit<TaskSection, 'id'> = {
+      tasks,
+      text: mdText,
+    };
+    onSectionChange(newSection);
+  }, [mdText, tasks]);
+
+  function handleEditorChange({ text }: { text: string }) {
     setMdText(text);
-    onTextChange(text);
   }
+  const onTaskDelete = (id: string) => {
+    setTasks((tasks) => {
+      return tasks.filter((filter) => filter.id !== id);
+    });
+  };
+  const onTaskCheck = (id: string) => {
+    setTasks((tasks) => {
+      return tasks.map((task) => {
+        task.completed = task.id === id ? !task.completed : task.completed;
+        return task;
+      });
+    });
+  };
+  const onTaskAdd = () => {
+    setTasks((tasks) => {
+      return [
+        ...tasks,
+        {
+          id: nanoid(),
+          completed: false,
+          label: 'new item',
+        },
+      ];
+    });
+  };
+
+  const onLabelChange = (id: string, value: string) => {
+    setTasks((tasks) => {
+      return tasks.map((task) => {
+        task.label = task.id === id ? value : task.label;
+        return task;
+      });
+    });
+  };
   return (
     <SectionWrapper>
       <div>
@@ -62,7 +97,11 @@ export function TaskSectionView({
               </Button>
             </div>
             <div>
-              <IconButton size='small' style={{ marginLeft: '-5px' }}>
+              <IconButton
+                size='small'
+                style={{ marginBottom: '10px' }}
+                onClick={onTaskAdd}
+              >
                 <AddIcon style={{ color: 'green' }} />
               </IconButton>
             </div>
@@ -77,26 +116,47 @@ export function TaskSectionView({
           </IconButton>
         )}
       </div>
+
       <FormControl component='fieldset'>
-        {tasks.map((task, index) => (
-          <FormControlLabel
-            key={index}
-            control={
-              <Checkbox
-                checked={task.completed}
-                onChange={(e) => onTaskCheck(e.target.checked, index)}
-                name={task.label}
-                color='primary'
-              />
-            }
-            label={task.label}
-          />
-        ))}
+        {tasks.map((task, index) =>
+          showEditor ? (
+            <FormControl component='fieldset' key={index}>
+              <div style={{ marginBottom: '20px' }}>
+                <IconButton
+                  size='small'
+                  component='span'
+                  onClick={() => onTaskDelete(task.id)}
+                >
+                  <CloseIcon style={{ color: 'red' }} />
+                </IconButton>
+                <TextField
+                  aria-describedby='my-helper-text'
+                  value={task.label}
+                  onChange={(e) => onLabelChange(task.id, e.target.value)}
+                  size='small'
+                />
+              </div>
+            </FormControl>
+          ) : (
+            <FormControlLabel
+              key={task.id}
+              control={
+                <Checkbox
+                  checked={task.completed}
+                  onChange={() => onTaskCheck(task.id)}
+                  name={task.label}
+                  color='primary'
+                />
+              }
+              label={task.label}
+            />
+          )
+        )}
       </FormControl>
       {showEditor && (
         <MdEditor
           value={mdText}
-          style={{ height: '500px' }}
+          style={{ height: '500px', marginTop: '30px' }}
           config={{
             view: {
               menu: true,

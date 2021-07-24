@@ -1,62 +1,47 @@
 import { Button, Divider } from '@material-ui/core';
+import { nanoid } from 'nanoid';
 import React, { useState } from 'react';
-import {
-  TaskSectionView
-} from './taskSectionView/TaskSectionView';
+import { TaskSectionView } from './taskSectionView/TaskSectionView';
 import { TaskSidePageViewWrapper } from './TaskSidePageViewStyle';
 
+export type TaskSection = {
+  id: string;
+  tasks: {
+    id: string;
+    completed: boolean;
+    label: string;
+  }[];
+  text: string;
+};
+const newId = nanoid();
 const mockSections = {
-  '1': {
-    id: '1',
+  [newId]: {
+    id: newId,
     tasks: [
-      { completed: false, label: 'zhuzhu' },
-      { completed: true, label: 'human' },
+      { id: nanoid(), completed: false, label: 'zhuzhu' },
+      { id: nanoid(), completed: true, label: 'human' },
     ],
     text: 'I love you',
-  },
-  '2': {
-    id: '2',
-    tasks: [
-      { completed: false, label: 'aaaa' },
-      { completed: true, label: 'humbbban' },
-    ],
-    text: 'I hate you',
   },
 };
 
 export function TaskSidePageView(): JSX.Element {
   const [sections, setSetions] = useState(mockSections);
-  const onTaskCheck = (
-    value: boolean,
-    taskIndex: number,
-    sectionId: string
-  ) => {
-    setSetions((sections) => {
-      const copied = JSON.parse(JSON.stringify(sections));
-      copied[sectionId].tasks[taskIndex].completed = value;
-      return copied;
-    });
+
+  const onSectionChange = (id: string, newSection: Omit<TaskSection, 'id'>) => {
+    setSetions({ ...sections, [id]: { ...newSection, id } });
   };
 
-  const onTextChange = (text: string, id: string) => {
-    setSetions((sections) => {
-      const copied = JSON.parse(JSON.stringify(sections));
-      copied[id].text = text;
-      return copied;
-    });
-  };
   return (
     <TaskSidePageViewWrapper>
-      {Object.values(sections).map(({ id, tasks, text }, index) => (
-        <React.Fragment key={id}>
+      {Object.values(sections).map((section, index) => (
+        <React.Fragment key={section.id}>
           <Divider />
           <TaskSectionView
-            tasks={tasks}
-            text={text}
-            onTaskCheck={(value: boolean, taskIndex: number) =>
-              onTaskCheck(value, taskIndex, id)
+            section={{ text: section.text, tasks: section.tasks }}
+            onSectionChange={(newSection: Omit<TaskSection, 'id'>) =>
+              onSectionChange(section.id, newSection)
             }
-            onTextChange={(text) => onTextChange(text, id)}
           />
         </React.Fragment>
       ))}

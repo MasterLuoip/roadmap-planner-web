@@ -21,11 +21,13 @@ import { nanoid } from 'nanoid';
 type TaskSectionComponentProp = {
   section: Omit<TaskSection, 'id'>;
   onSectionChange: (newSection: Omit<TaskSection, 'id'>) => void;
+  onSectionDelete: () => void;
 };
 
 export function TaskSectionView({
   section,
   onSectionChange,
+  onSectionDelete,
 }: TaskSectionComponentProp): JSX.Element {
   // const [section, setSection] = useState(section);
   const [mdText, setMdText] = useState(section.text);
@@ -83,7 +85,7 @@ export function TaskSectionView({
       <div>
         {showEditor ? (
           <>
-            <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Button
                 variant='outlined'
                 style={{
@@ -94,6 +96,17 @@ export function TaskSectionView({
                 onClick={() => setShowEditor(false)}
               >
                 Save
+              </Button>
+              <Button
+                variant='outlined'
+                style={{
+                  backgroundColor: 'red',
+                  color: 'white',
+                  marginBottom: '20px',
+                }}
+                onClick={onSectionDelete}
+              >
+                Delete
               </Button>
             </div>
             <div>

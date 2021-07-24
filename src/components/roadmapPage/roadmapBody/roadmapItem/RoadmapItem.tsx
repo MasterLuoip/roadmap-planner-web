@@ -9,18 +9,19 @@ import {
   CompleteStatusText,
   ItemTitle,
   RoadmapItemWrapper,
-  TitleWrapper
+  TitleWrapper,
 } from './RoadmapItemStyle';
-
 
 export type RoadmapItemType = {
   title: string;
   onAddClick: () => void;
   onTitleChange: (newTitle: string) => void;
   onItemDelete: () => void;
+  onClick: () => void;
 };
 export function RoadmapItem({
   title,
+  onClick,
   onAddClick,
   onTitleChange,
   onItemDelete,
@@ -33,6 +34,7 @@ export function RoadmapItem({
     <RoadmapItemWrapper
       onMouseOver={() => setIsHoverd(true)}
       onMouseLeave={() => setIsHoverd(false)}
+      onClick={onClick}
     >
       <TitleWrapper>
         {isEdit ? (

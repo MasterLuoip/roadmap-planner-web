@@ -16,6 +16,11 @@ type ItemType = {
 
 export function RoadmapBody() {
   const [itemList, setItemList] = useState<ItemType[]>([]);
+  const [isSidePageShowed, setIsSidePageShowed] = useState(false);
+
+  const onSidePageClose = () => {
+    setIsSidePageShowed(false);
+  };
 
   const onAddClick = (index: number) => {
     setItemList((itemList) => {
@@ -45,7 +50,7 @@ export function RoadmapBody() {
 
   return (
     <RoadmapBodyGridContainer container>
-      <RoadmapItemGridWrapper item xs={4}>
+      <RoadmapItemGridWrapper item xs>
         {itemList.length === 0 && (
           <Button
             variant='contained'
@@ -60,6 +65,7 @@ export function RoadmapBody() {
             <RoadmapItem
               key={item.id}
               title={item.title}
+              onClick={() => setIsSidePageShowed(true)}
               onAddClick={() => onAddClick(index)}
               onTitleChange={(newTitle: string) => {
                 onTitleChange(index, newTitle);
@@ -69,9 +75,11 @@ export function RoadmapBody() {
           );
         })}
       </RoadmapItemGridWrapper>
-      <SideGrid item xs>
-        <TaskSidePageView />
-      </SideGrid>
+      {isSidePageShowed && (
+        <SideGrid item xs={8}>
+          <TaskSidePageView onSidePageClose={onSidePageClose} />
+        </SideGrid>
+      )}
     </RoadmapBodyGridContainer>
   );
 }

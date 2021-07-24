@@ -2,15 +2,16 @@ import { Typography, Divider } from '@material-ui/core';
 import styled from 'styled-components';
 
 export const RoadmapItemWrapper = styled.div`
+  background-color: #ff8a65;
+  flex-direction: column;
   border-radius: 10px;
   width: 300px;
   min-width: 300px;
   min-height: 100px;
-  background-color: #ff8a65;
   padding: 10px;
   display: flex;
-  flex-direction: column;
   margin-bottom: 20px;
+  cursor: pointer;
 `;
 export const TitleWrapper = styled.div`
   flex-grow: 1;

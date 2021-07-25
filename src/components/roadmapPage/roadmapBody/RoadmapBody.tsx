@@ -7,26 +7,46 @@ import {
   SideGrid,
 } from './RoadmapBodyStyle';
 import { RoadmapItem } from './roadmapItem/RoadmapItem';
-import { TaskSidePageView } from './taskSidePageView/TaskSidePageView';
+import {
+  TaskSection,
+  TaskSidePageView,
+} from './taskSidePageView/TaskSidePageView';
 
 type ItemType = {
   id: string;
   title: string;
+  taskSections: TaskSection[];
 };
 
 export function RoadmapBody() {
   const [itemList, setItemList] = useState<ItemType[]>([]);
-  const [isSidePageShowed, setIsSidePageShowed] = useState(false);
+  // const [isSidePageShowed, setIsSidePageShowed] = useState(false);
+  const [activeItem, setActiveItem] = useState<ItemType | null>(null);
 
   const onSidePageClose = () => {
-    setIsSidePageShowed(false);
+    setActiveItem(null);
+  };
+
+  const setTaskSections = (id: string, sections: TaskSection[]) => {
+    setItemList((itemList) =>
+      itemList.filter((item) => {
+        item.taskSections = item.id === id ? sections : item.taskSections;
+        return item;
+      })
+    );
   };
 
   const onAddClick = (index: number) => {
     setItemList((itemList) => {
       return [
         ...itemList.slice(0, index + 1),
-        ...[{ title: 'new item', id: nanoid() }],
+        ...[
+          {
+            title: 'new item',
+            id: nanoid(),
+            taskSections: [],
+          },
+        ],
         ...itemList.slice(index + 1),
       ];
     });
@@ -42,10 +62,19 @@ export function RoadmapBody() {
     });
   };
 
-  const onItemDelete = (index: number) => {
-    setItemList((temp) => {
-      return [...temp.slice(0, index), ...temp.slice(index + 1)];
+  const onItemDelete = (id: string) => {
+    if (activeItem && id === activeItem.id) {
+      setActiveItem(null);
+    }
+    setItemList((itemList) => {
+      return itemList.filter((item) => item.id !== id);
     });
+  };
+
+  const onItemClick = (item: ItemType) => {
+    console.log(activeItem);
+    console.log(itemList);
+    setActiveItem(item);
   };
 
   return (
@@ -65,19 +94,26 @@ export function RoadmapBody() {
             <RoadmapItem
               key={item.id}
               title={item.title}
-              onClick={() => setIsSidePageShowed(true)}
+              onClick={() => onItemClick(item)}
               onAddClick={() => onAddClick(index)}
               onTitleChange={(newTitle: string) => {
                 onTitleChange(index, newTitle);
               }}
-              onItemDelete={() => onItemDelete(index)}
+              onItemDelete={() => onItemDelete(item.id)}
             />
           );
         })}
       </RoadmapItemGridWrapper>
-      {isSidePageShowed && (
+      {activeItem !== null && (
         <SideGrid item xs={8}>
-          <TaskSidePageView onSidePageClose={onSidePageClose} />
+          <div>{activeItem.id}</div>
+          <TaskSidePageView
+            onSidePageClose={onSidePageClose}
+            taskSections={activeItem.taskSections}
+            setTaskSections={(newSections: TaskSection[]) =>
+              setTaskSections(activeItem.id, newSections)
+            }
+          />
         </SideGrid>
       )}
     </RoadmapBodyGridContainer>

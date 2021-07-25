@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { TaskSectionView } from './taskSectionView/TaskSectionView';
 import { TaskSidePageViewWrapper } from './TaskSidePageViewStyle';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { useEffect } from 'react';
 
 export type TaskSection = {
   id: string;
@@ -28,41 +29,63 @@ const mockSections = {
 
 export function TaskSidePageView({
   onSidePageClose,
+  taskSections,
+  setTaskSections,
 }: {
   onSidePageClose: () => void;
+  taskSections: TaskSection[];
+  setTaskSections: (newSections: TaskSection[]) => void;
 }): JSX.Element {
-  const [sections, setSetions] = useState(mockSections);
+  const [sections, setSections] = useState<TaskSection[]>(taskSections);
+
+  useEffect(() => {
+    if (sections !== taskSections) {
+      setSections(taskSections);
+    }
+  }, [taskSections]);
+
+  useEffect(() => {
+    setTaskSections(sections);
+  }, [sections]);
 
   const onSectionChange = (id: string, newSection: Omit<TaskSection, 'id'>) => {
-    setSetions({ ...sections, [id]: { ...newSection, id } });
+    setSections((sections) => {
+      return sections.map((section) => {
+        return section.id === id ? { ...newSection, id } : section;
+      });
+    });
   };
 
   const onSectionAdd = () => {
     const newId = nanoid();
-    setSetions({
+    setSections([
       ...sections,
-      [newId]: {
+      {
         id: newId,
         tasks: [],
         text: 'I am new',
       },
-    });
+    ]);
   };
 
   const onSectionDelete = (id: string) => {
-    setSetions((sections) => {
-      const copied = { ...sections };
-      delete copied[id];
-      return copied;
-    });
+    setSections((sections) => sections.filter((s) => s.id !== id));
+  };
+
+  const onBackClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    onSidePageClose();
   };
 
   return (
     <TaskSidePageViewWrapper>
-      <IconButton onClick={onSidePageClose} style={{ marginLeft: '-20px' }}>
+      <IconButton
+        onClick={(e) => onBackClick(e)}
+        style={{ marginLeft: '-20px' }}
+      >
         <ArrowBackIcon />
       </IconButton>
-      {Object.values(sections).map((section, index) => (
+      {sections.map((section) => (
         <React.Fragment key={section.id}>
           <Divider />
           <TaskSectionView

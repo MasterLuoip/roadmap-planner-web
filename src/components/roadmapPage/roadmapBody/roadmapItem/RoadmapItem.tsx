@@ -30,6 +30,14 @@ export function RoadmapItem({
   const [localTitle, setLocalTitle] = useState(title);
   const [isEdit, setIsEdit] = useState(false);
 
+  const stopPropagation = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    func: Function
+  ) => {
+    e.stopPropagation();
+    func();
+  };
+
   return (
     <RoadmapItemWrapper
       onMouseOver={() => setIsHoverd(true)}
@@ -65,14 +73,28 @@ export function RoadmapItem({
             <IconButton
               size='small'
               component='span'
-              onClick={() => setIsEdit(true)}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                stopPropagation(e, () => setIsEdit(true))
+              }
             >
               <CreateIcon style={{ color: 'grey' }} />
             </IconButton>
-            <IconButton size='small' component='span' onClick={onAddClick}>
+            <IconButton
+              size='small'
+              component='span'
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                stopPropagation(e, onAddClick)
+              }
+            >
               <AddIcon style={{ color: 'green' }} />
             </IconButton>
-            <IconButton size='small' component='span' onClick={onItemDelete}>
+            <IconButton
+              size='small'
+              component='span'
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
+                stopPropagation(e, onItemDelete)
+              }
+            >
               <CloseIcon style={{ color: 'red' }} />
             </IconButton>
           </>

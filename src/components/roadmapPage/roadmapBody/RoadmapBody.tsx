@@ -106,7 +106,6 @@ export function RoadmapBody() {
       </RoadmapItemGridWrapper>
       {activeItem !== null && (
         <SideGrid item xs={8}>
-          <div>{activeItem.id}</div>
           <TaskSidePageView
             onSidePageClose={onSidePageClose}
             taskSections={activeItem.taskSections}

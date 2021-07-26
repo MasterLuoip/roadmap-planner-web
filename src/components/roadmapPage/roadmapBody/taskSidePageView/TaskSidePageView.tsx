@@ -39,7 +39,14 @@ export function TaskSidePageView({
   const [sections, setSections] = useState<TaskSection[]>(taskSections);
 
   useEffect(() => {
-    if (sections !== taskSections) {
+    // this useEffect needs deep comparision.
+    // because setTaksSection(sections) will create a new array.
+    // this reflects in the prop taskSection from parent component.
+    // if no deep comparision, will cause a infinity loop
+    if (
+      taskSections.length !== sections.length &&
+      sections[0]?.id !== taskSections[0]?.id
+    ) {
       setSections(taskSections);
     }
   }, [taskSections]);

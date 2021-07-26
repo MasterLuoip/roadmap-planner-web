@@ -52,13 +52,12 @@ export function RoadmapBody() {
     });
   };
 
-  const onTitleChange = (index: number, newTitle: string) => {
+  const onTitleChange = (id: string, newTitle: string) => {
     setItemList((itemList) => {
-      return [
-        ...itemList.slice(0, index),
-        ...[{ ...itemList[index], title: newTitle }],
-        ...itemList.slice(index + 1),
-      ];
+      return itemList.map((item) => {
+        item.title = id === item.id ? newTitle : item.title;
+        return item;
+      });
     });
   };
 
@@ -97,7 +96,7 @@ export function RoadmapBody() {
               onClick={() => onItemClick(item)}
               onAddClick={() => onAddClick(index)}
               onTitleChange={(newTitle: string) => {
-                onTitleChange(index, newTitle);
+                onTitleChange(item.id, newTitle);
               }}
               onItemDelete={() => onItemDelete(item.id)}
             />
@@ -109,6 +108,7 @@ export function RoadmapBody() {
           <TaskSidePageView
             onSidePageClose={onSidePageClose}
             taskSections={activeItem.taskSections}
+            title={activeItem.title}
             setTaskSections={(newSections: TaskSection[]) =>
               setTaskSections(activeItem.id, newSections)
             }

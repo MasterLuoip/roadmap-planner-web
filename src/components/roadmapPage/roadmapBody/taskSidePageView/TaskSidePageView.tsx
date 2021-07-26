@@ -16,25 +16,17 @@ export type TaskSection = {
   text: string;
 };
 const newId = nanoid();
-const mockSections = {
-  [newId]: {
-    id: newId,
-    tasks: [
-      { id: nanoid(), completed: false, label: 'zhuzhu' },
-      { id: nanoid(), completed: true, label: 'human' },
-    ],
-    text: 'I love you',
-  },
-};
 
 export function TaskSidePageView({
   onSidePageClose,
   taskSections,
   setTaskSections,
+  title,
 }: {
   onSidePageClose: () => void;
   taskSections: TaskSection[];
   setTaskSections: (newSections: TaskSection[]) => void;
+  title: string;
 }): JSX.Element {
   const [sections, setSections] = useState<TaskSection[]>(taskSections);
 
@@ -86,12 +78,15 @@ export function TaskSidePageView({
 
   return (
     <TaskSidePageViewWrapper>
-      <IconButton
-        onClick={(e) => onBackClick(e)}
-        style={{ marginLeft: '-20px' }}
-      >
-        <ArrowBackIcon />
-      </IconButton>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <IconButton
+          onClick={(e) => onBackClick(e)}
+          style={{ marginLeft: '-20px' }}
+        >
+          <ArrowBackIcon />
+        </IconButton>
+        <h4>{title}</h4>
+      </div>
       {sections.map((section) => (
         <React.Fragment key={section.id}>
           <Divider />

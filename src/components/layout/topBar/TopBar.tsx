@@ -2,9 +2,9 @@ import { IconButton, Toolbar } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import React from 'react';
-import { AppBarWrapper, TopbarTitle } from './TopbarStyle';
+import { AppBarWrapper, TopbarTitle } from './TopBarStyle';
 
-export function Topbar(): JSX.Element {
+export function TopBar(): JSX.Element {
   return (
     <>
       <AppBarWrapper position='relative'>

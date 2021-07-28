@@ -15,7 +15,6 @@ export type TaskSection = {
   }[];
   text: string;
 };
-const newId = nanoid();
 
 export function TaskSidePageView({
   onSidePageClose,

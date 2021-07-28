@@ -1,11 +1,13 @@
 import React from 'react';
-import { Topbar } from '../layout/Topbar';
+import { MapBar } from '../layout/mapBar/MapBar';
+import { TopBar } from '../layout/topBar/TopBar';
 import { RoadmapBody } from './roadmapBody/RoadmapBody';
 
 export function RoadmapView(): JSX.Element {
   return (
     <>
-      <Topbar />
+      <TopBar />
+      <MapBar />
       <RoadmapBody />
     </>
   );

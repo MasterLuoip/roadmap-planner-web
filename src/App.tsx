@@ -1,5 +1,7 @@
 import { createTheme, ThemeProvider } from '@material-ui/core';
 import { RoadmapView } from './components/roadmapPage/RoadmapView';
+import { create } from 'jss';
+import { StylesProvider, jssPreset } from '@material-ui/core/styles';
 
 const theme = createTheme({
   palette: {
@@ -24,11 +26,19 @@ const theme = createTheme({
     tonalOffset: 0.2,
   },
 });
+
+const jss = create({
+  ...jssPreset(),
+  // Define a custom insertion point that JSS will look for when injecting the styles into the DOM.
+  insertionPoint: document.getElementById('jss-insertion-point') || undefined,
+});
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <RoadmapView />
-    </ThemeProvider>
+    <StylesProvider jss={jss}>
+      <ThemeProvider theme={theme}>
+        <RoadmapView />
+      </ThemeProvider>
+    </StylesProvider>
   );
 }
 

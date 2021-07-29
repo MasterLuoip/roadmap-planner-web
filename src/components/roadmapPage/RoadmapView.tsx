@@ -7,7 +7,7 @@ export function RoadmapView(): JSX.Element {
   return (
     <>
       <TopBar />
-      <MapBar />
+      <MapBar mapList={[]} />
       <RoadmapBody />
     </>
   );

@@ -1,6 +1,7 @@
 import { Button } from '@material-ui/core';
 import { nanoid } from 'nanoid';
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import {
   RoadmapBodyGridContainer,
   RoadmapItemGridWrapper,
@@ -12,17 +13,35 @@ import {
   TaskSidePageView,
 } from './taskSidePageView/TaskSidePageView';
 
-type ItemType = {
+export type ItemType = {
   id: string;
   title: string;
   taskSections: TaskSection[];
 };
 
-export function RoadmapBody() {
-  const [itemList, setItemList] = useState<ItemType[]>([]);
+export function RoadmapBody({
+  roadmapItemList,
+  updateRoadmapItemList,
+}: {
+  roadmapItemList: ItemType[];
+  updateRoadmapItemList: (newItemList: ItemType[]) => void;
+}) {
+  const [itemList, setItemList] = useState<ItemType[]>(roadmapItemList);
   // const [isSidePageShowed, setIsSidePageShowed] = useState(false);
   const [activeItem, setActiveItem] = useState<ItemType | null>(null);
 
+  useEffect(() => {
+    if (
+      itemList.length !== roadmapItemList.length ||
+      itemList.every((i, index) => roadmapItemList[index].id)
+    ) {
+      setItemList(roadmapItemList);
+    }
+  }, [roadmapItemList]);
+
+  useEffect(() => {
+    updateRoadmapItemList(itemList);
+  }, [itemList]);
   const onSidePageClose = () => {
     setActiveItem(null);
   };

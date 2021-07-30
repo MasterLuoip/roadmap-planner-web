@@ -13,7 +13,7 @@ export const DropButton = styled(Button)({
   borderRadius: 3,
   boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
   color: 'white',
-  height: 48,
+  height: 30,
   padding: '0 30px',
   width: 'fit-content',
 });
@@ -28,23 +28,34 @@ export const NavigationWrapper = styled.div`
   padding-left: 70px;
 `;
 
-export const NavigationCard = styled(Card)`
-  background: #90caf9;
+type NavigationCard = {
+  backgroundStyle: cardBackgroundStyle;
+};
+
+export enum cardBackgroundStyle {
+  selected,
+  unselected,
+  newItem,
+}
+
+const backgroundColorMap = {
+  [cardBackgroundStyle.selected]: '#ff8e53',
+  [cardBackgroundStyle.unselected]: '#90caf9',
+  [cardBackgroundStyle.newItem]: 'transparent',
+};
+
+export const NavigationCard = styled(Card)<NavigationCard>`
+  background: ${(prop) => backgroundColorMap[prop.backgroundStyle]};
   width: 225px;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 15px;
+  border: ${(props) =>
+    props.backgroundStyle === cardBackgroundStyle.newItem
+      ? '1px dashed black'
+      : ''};
   margin-right: 20px;
   cursor: pointer;
 `;
-
-// ({
-//   minWidth: '225px',
-//   height: '100%',
-//   backgroundColor: 'black',
-//   root: {
-//     backgroundColor: 'black',
-//   },
-// });

@@ -1,49 +1,80 @@
 import { Typography } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { nanoid } from 'nanoid';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useCurdArrayWithItemId, {
   AddPosition,
 } from '../../../utils/customHooks/useCurdArrayWithItemId';
+import { RoadmapType } from '../../roadmapPage/RoadmapView';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import {
+  cardBackgroundStyle,
   DropButton,
   MapBarWrapper,
   NavigationCard,
   NavigationWrapper,
 } from './MapBarStyle';
 
-type SingleItemType = {
-  id: string;
-  title: string;
-};
-
 type MapBarType = {
-  mapList: SingleItemType[];
+  mapList: RoadmapType[];
+  onMapItemClick: (index: string) => void;
+  updateNewTarget: (newTarget: RoadmapType[]) => void;
 };
-export function MapBar({ mapList }: MapBarType): JSX.Element {
+export function MapBar({
+  mapList,
+  onMapItemClick,
+  updateNewTarget,
+}: MapBarType): JSX.Element {
   const {
     target: localMapList,
     addItem,
     changeItemById,
     removeItemById,
-  } = useCurdArrayWithItemId<SingleItemType>(mapList);
+  } = useCurdArrayWithItemId<RoadmapType>(mapList);
+  const [activeId, setActiveId] = useState<string | null>(localMapList[0].id);
+  const [showMapBar, setShowMapBar] = useState(false);
+  useEffect(() => {
+    updateNewTarget(localMapList);
+  }, [localMapList]);
+
   const onNewRoadmapClick = () => {
-    addItem({ id: nanoid(), title: 'new roadmap' }, AddPosition.end);
+    addItem(
+      { id: nanoid(), title: 'new roadmap', itemList: [] },
+      AddPosition.end
+    );
   };
+
   return (
     <MapBarWrapper>
-      <NavigationWrapper>
-        {localMapList.map((map, index) => (
-          <NavigationCard>
-            <Typography variant='h5' key={index}>
-              {map.title}
-            </Typography>
+      {showMapBar && (
+        <NavigationWrapper>
+          {localMapList.map((map, index) => (
+            <NavigationCard
+              onClick={() => {
+                onMapItemClick(map.id);
+                setActiveId(map.id);
+              }}
+              backgroundStyle={
+                activeId === map.id
+                  ? cardBackgroundStyle.selected
+                  : cardBackgroundStyle.unselected
+              }
+            >
+              <Typography variant='h5' key={index}>
+                {map.title}
+              </Typography>
+            </NavigationCard>
+          ))}
+          <NavigationCard
+            backgroundStyle={cardBackgroundStyle.newItem}
+            onClick={onNewRoadmapClick}
+          >
+            Add new one
           </NavigationCard>
-        ))}
-        <NavigationCard onClick={onNewRoadmapClick}>Add new one</NavigationCard>
-      </NavigationWrapper>
-      <DropButton>
-        <ExpandMoreIcon />
+        </NavigationWrapper>
+      )}
+      <DropButton onClick={() => setShowMapBar(!showMapBar)}>
+        {showMapBar ? <KeyboardArrowUpIcon /> : <ExpandMoreIcon />}
       </DropButton>
     </MapBarWrapper>
   );

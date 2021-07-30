@@ -42,7 +42,6 @@ export default function useCurdArrayWithItemId<T extends { id: string }>(
         if (key in t) {
           tempT[key] = t.id === id ? newValue : t.id;
         }
-
         return t;
       });
     });

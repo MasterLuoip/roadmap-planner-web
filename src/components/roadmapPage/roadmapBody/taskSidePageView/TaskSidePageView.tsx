@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../../app/store';
 import {
   setActiveRoadmapItem,
-  setActiveRoadmapItemTaskSection,
+  setRoadmapItemTaskSection,
 } from '../../../../feature/roadmap/roadmapSlice';
 
 export type TaskSection = {
@@ -48,7 +48,7 @@ export function TaskSidePageView(): JSX.Element {
   }, [sectionsFromStore]);
 
   useEffect(() => {
-    dispatch(setActiveRoadmapItemTaskSection(sections));
+    dispatch(setRoadmapItemTaskSection(sections));
   }, [sections]);
 
   const onSectionChange = (id: string, newSection: Omit<TaskSection, 'id'>) => {

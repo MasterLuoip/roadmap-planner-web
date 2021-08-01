@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
-import { ItemType } from '../../components/roadmapPage/roadmapBody/RoadmapBody';
+import {
+  ItemType,
+  RoadmapBody,
+} from '../../components/roadmapPage/roadmapBody/RoadmapBody';
 import { TaskSection } from '../../components/roadmapPage/roadmapBody/taskSidePageView/TaskSidePageView';
 import { RoadmapType } from '../../components/roadmapPage/RoadmapView';
 
@@ -25,7 +28,20 @@ export const roadmapSlice = createSlice({
       state,
       { payload }: { payload: ItemType | null }
     ) => {
-      state.activeRoadmapItem = payload;
+      if (payload === null) {
+        state.activeRoadmapItem = null;
+      }
+      // n^2 order, refactor this.
+      state.roadmapList.forEach((roadmap) => {
+        if (roadmap.id === state.activeRoadmap?.id) {
+          roadmap.itemList.forEach((item) => {
+            if (item.id === payload?.id) {
+              state.activeRoadmapItem = item;
+              return;
+            }
+          });
+        }
+      });
     },
     setActiveRoadmap: (state, { payload }: { payload: RoadmapType | null }) => {
       state.activeRoadmap = payload;
@@ -55,12 +71,21 @@ export const roadmapSlice = createSlice({
     ) => {
       state.roadmapList.find((x) => x.id === id)?.itemList.push(item);
     },
-    setActiveRoadmapItemTaskSection: (
-      state,
+    setRoadmapItemTaskSection: (
+      { roadmapList, activeRoadmap, activeRoadmapItem },
       { payload }: { payload: TaskSection[] }
     ) => {
-      if (state.activeRoadmapItem)
-        state.activeRoadmapItem.taskSections = payload;
+      // if (state.activeRoadmapItem)
+      //   state.activeRoadmapItem.taskSections = payload;
+      roadmapList.forEach((roadmap) => {
+        if (roadmap.id === activeRoadmap?.id) {
+          roadmap.itemList.forEach((item) => {
+            if (item.id === activeRoadmapItem?.id) {
+              item.taskSections = payload;
+            }
+          });
+        }
+      });
     },
     addNewItemToItemList: (
       state,
@@ -76,6 +101,9 @@ export const roadmapSlice = createSlice({
       if (index !== -1) {
         state.activeRoadmap.itemList.splice(index + 1, 0, newItem);
       }
+      state.roadmapList = state.roadmapList.map((item) => {
+        return item.id === state.activeRoadmap?.id ? state.activeRoadmap : item;
+      });
     },
     changeItemListSingleItemName: (
       state,
@@ -110,7 +138,7 @@ export const {
   addItemInRoadmap,
   removeItemInRoadmap,
   setItemTitleById,
-  setActiveRoadmapItemTaskSection,
+  setRoadmapItemTaskSection,
   addNewItemToItemList,
   changeItemListSingleItemName,
   deleteItemInItemList,

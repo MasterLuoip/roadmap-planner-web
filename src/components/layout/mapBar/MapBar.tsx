@@ -7,11 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
 import {
   addNewRoadmap,
+  selectActiveRoadmap,
   selectActiveRoadmapItem,
   setActiveRoadmap,
 } from '../../../feature/roadmap/roadmapSlice';
-import useCurdArrayWithItemId from '../../../utils/customHooks/useCurdArrayWithItemId';
-import { RoadmapType } from '../../roadmapPage/RoadmapView';
 import {
   cardBackgroundStyle,
   DropButton,
@@ -20,25 +19,15 @@ import {
   NavigationWrapper,
 } from './MapBarStyle';
 
-type MapBarType = {};
 export function MapBar(): JSX.Element {
   const localMapList = useSelector((state: RootState) => {
     return state.roadmap.roadmapList;
   });
-  // const { target: localMapList } = useCurdArrayWithItemId<RoadmapType>(mapList);
-  // const [activeId, setActiveId] = useState<string | null>(localMapList[0].id);
-  const activeRoadmap = useSelector(selectActiveRoadmapItem);
+  const activeRoadmap = useSelector(selectActiveRoadmap);
   const [showMapBar, setShowMapBar] = useState(false);
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   updateNewTarget(localMapList);
-  // }, [localMapList]);
 
   const onNewRoadmapClick = () => {
-    // addItem(
-    //   { id: nanoid(), title: 'new roadmap', itemList: [] },
-    //   AddPosition.end
-    // );
     dispatch(
       addNewRoadmap({ id: nanoid(), title: 'new roadmap', itemList: [] })
     );

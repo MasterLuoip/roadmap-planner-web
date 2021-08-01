@@ -13,33 +13,15 @@ export type RoadmapType = {
   itemList: ItemType[];
 };
 export function RoadmapView(): JSX.Element {
-  // const { target, setTarget } = useCurdArrayWithItemId<RoadmapType>([
-  //   {
-  //     id: nanoid(),
-  //     title: 'defaultItem',
-  //     itemList: [],
-  //   },
-  // ]);
-  // const [activeTarget, setActiveTarget] = useState(target[0]);
   const isSidePanelShowed = useSelector(
     (state: RootState) => state.roadmap.activeRoadmapItem !== null
   );
-  // const updateNewTarget = (newTarget: RoadmapType[]) => {
-  //   setTarget(newTarget);
-  // };
-  // const updateRoadmapItemList = (id: string, newItemList: ItemType[]) => {
-  //   setTarget((target) => {
-  //     return target.map((t) => {
-  //       t.itemList = t.id === id ? newItemList : t.itemList;
-  //       return t;
-  //     });
-  //   });
-  // };
+
   return (
     <>
       <TopBar />
       <Grid container>
-        <Grid item xs>
+        <Grid item xs direction='column'>
           <MapBar />
           <RoadmapBody />
         </Grid>

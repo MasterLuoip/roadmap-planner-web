@@ -111,11 +111,19 @@ export const roadmapSlice = createSlice({
         payload: { newTitle, id },
       }: { payload: { newTitle: string; id: string } }
     ) => {
-      if (state.activeRoadmap === null) return;
-      const index = state.activeRoadmap.itemList.findIndex((i) => i.id === id);
-      if (index !== -1) {
-        state.activeRoadmap.itemList[index].title = newTitle;
-      }
+      const item = findRoadmapItem(
+        state.activeRoadmap?.id || '',
+        state.activeRoadmapItem?.id || '',
+        state
+      );
+      if (item === undefined) return;
+      item.title = newTitle;
+      state.activeRoadmapItem = item;
+      // if (state.activeRoadmap === null) return;
+      // const index = state.activeRoadmap.itemList.findIndex((i) => i.id === id);
+      // if (index !== -1) {
+      //   state.activeRoadmap.itemList[index].title = newTitle;
+      // }
     },
     deleteItemInItemList: (
       state,
@@ -145,7 +153,15 @@ export const {
 } = roadmapSlice.actions;
 
 // selector
-export const selectActiveRoadmapItem = (state: RootState) =>
+export const selectActiveRoadmap = (state: RootState) =>
   state.roadmap.activeRoadmap;
+export const selectActiveRoadmapItem = (state: RootState) =>
+  state.roadmap.activeRoadmapItem;
 
+//utils
+const findRoadmapItem = (roadmapId: string, itemId: string, state: any) => {
+  return state.roadmapList
+    .find((roadmap: any) => roadmap.id === roadmapId)
+    ?.itemList.find((item: any) => item.id === itemId);
+};
 export default roadmapSlice.reducer;

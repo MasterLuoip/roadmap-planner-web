@@ -7,6 +7,7 @@ import {
   addNewItemToItemList,
   changeItemListSingleItemName,
   deleteItemInItemList,
+  selectActiveRoadmap,
   selectActiveRoadmapItem,
   setActiveRoadmapItem,
 } from '../../../feature/roadmap/roadmapSlice';
@@ -21,29 +22,13 @@ export type ItemType = {
 };
 
 export function RoadmapBody({}: {}) {
-  const roadmapItemList = useSelector(selectActiveRoadmapItem);
-  const itemList = roadmapItemList ? roadmapItemList.itemList : [];
+  const roadmapItemList = useSelector(selectActiveRoadmap);
+  const itemList = roadmapItemList ? roadmapItemList.itemList : null;
 
-  // const [itemList, setItemList] = useState<ItemType[]>(
-  //   roadmapItemList?.itemList
-  // );
   const activeItem = useSelector(
     (state: RootState) => state.roadmap.activeRoadmapItem
   );
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   if (
-  //     itemList.length !== roadmapItemList.length ||
-  //     itemList.every((i, index) => roadmapItemList[index].id === i.id)
-  //   ) {
-  //     setItemList(roadmapItemList);
-  //   }
-  // }, [roadmapItemList]);
-
-  // useEffect(() => {
-  //   updateRoadmapItemList(itemList);
-  // }, [itemList]);
 
   const onAddClick = (id?: string) => {
     dispatch(
@@ -56,29 +41,10 @@ export function RoadmapBody({}: {}) {
         id,
       })
     );
-    // setItemList((itemList) => {
-    //   return [
-    //     ...itemList.slice(0, index + 1),
-    //     ...[
-    //       {
-    //         title: 'new item',
-    //         id: nanoid(),
-    //         taskSections: [],
-    //       },
-    //     ],
-    //     ...itemList.slice(index + 1),
-    //   ];
-    // });
   };
 
   const onTitleChange = (id: string, newTitle: string) => {
     dispatch(changeItemListSingleItemName({ newTitle, id }));
-    // setItemList((itemList) => {
-    //   return itemList.map((item) => {
-    //     item.title = id === item.id ? newTitle : item.title;
-    //     return item;
-    //   });
-    // });
   };
 
   const onItemDelete = (id: string) => {
@@ -86,39 +52,39 @@ export function RoadmapBody({}: {}) {
       dispatch(setActiveRoadmapItem(null));
     }
     dispatch(deleteItemInItemList({ id }));
-    // setItemList((itemList) => {
-    //   return itemList.filter((item) => item.id !== id);
-    // });
   };
 
   const onItemClick = (item: ItemType) => {
     dispatch(setActiveRoadmapItem(item));
   };
   return (
-    <RoadmapBodyGridContainer container>
-      {itemList.length === 0 && (
+    <RoadmapBodyGridContainer container direction='column' alignItems='center'>
+      {itemList === null ? (
+        <div>Please create or select a roadmap to start</div>
+      ) : itemList.length === 0 ? (
         <Button
           variant='contained'
           color='secondary'
           onClick={() => onAddClick()}
         >
-          Add you first item
+          Add your first item
         </Button>
+      ) : (
+        itemList.map((item, index) => {
+          return (
+            <RoadmapItem
+              key={item.id}
+              title={item.title}
+              onClick={() => onItemClick(item)}
+              onAddClick={() => onAddClick(item.id)}
+              onTitleChange={(newTitle: string) => {
+                onTitleChange(item.id, newTitle);
+              }}
+              onItemDelete={() => onItemDelete(item.id)}
+            />
+          );
+        })
       )}
-      {itemList.map((item, index) => {
-        return (
-          <RoadmapItem
-            key={item.id}
-            title={item.title}
-            onClick={() => onItemClick(item)}
-            onAddClick={() => onAddClick(item.id)}
-            onTitleChange={(newTitle: string) => {
-              onTitleChange(item.id, newTitle);
-            }}
-            onItemDelete={() => onItemDelete(item.id)}
-          />
-        );
-      })}
     </RoadmapBodyGridContainer>
   );
 }

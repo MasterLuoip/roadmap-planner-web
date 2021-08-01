@@ -24,11 +24,11 @@ export const NavigationWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 150px;
-  padding: 20px;
-  padding-left: 70px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 `;
 
-type NavigationCard = {
+type NavigationCardProps = {
   backgroundStyle: cardBackgroundStyle;
 };
 
@@ -44,7 +44,7 @@ const backgroundColorMap = {
   [cardBackgroundStyle.newItem]: 'transparent',
 };
 
-export const NavigationCard = styled(Card)<NavigationCard>`
+export const NavigationCard = styled(Card)<NavigationCardProps>`
   background: ${(prop) => backgroundColorMap[prop.backgroundStyle]};
   width: 225px;
   height: 100%;
@@ -56,6 +56,6 @@ export const NavigationCard = styled(Card)<NavigationCard>`
     props.backgroundStyle === cardBackgroundStyle.newItem
       ? '1px dashed black'
       : ''};
-  margin-right: 20px;
+  margin-left: 20px;
   cursor: pointer;
 `;

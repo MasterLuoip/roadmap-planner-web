@@ -9,7 +9,7 @@ import {
   CompleteStatusText,
   ItemTitle,
   RoadmapItemWrapper,
-  TitleWrapper,
+  TitleWrapper
 } from './RoadmapItemStyle';
 
 export type RoadmapItemType = {

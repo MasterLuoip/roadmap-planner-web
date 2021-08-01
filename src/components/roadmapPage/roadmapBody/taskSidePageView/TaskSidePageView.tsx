@@ -5,6 +5,12 @@ import { TaskSectionView } from './taskSectionView/TaskSectionView';
 import { TaskSidePageViewWrapper } from './TaskSidePageViewStyle';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../app/store';
+import {
+  setActiveRoadmapItem,
+  setActiveRoadmapItemTaskSection,
+} from '../../../../feature/roadmap/roadmapSlice';
 
 export type TaskSection = {
   id: string;
@@ -16,18 +22,17 @@ export type TaskSection = {
   text: string;
 };
 
-export function TaskSidePageView({
-  onSidePageClose,
-  taskSections,
-  setTaskSections,
-  title,
-}: {
-  onSidePageClose: () => void;
-  taskSections: TaskSection[];
-  setTaskSections: (newSections: TaskSection[]) => void;
-  title: string;
-}): JSX.Element {
-  const [sections, setSections] = useState<TaskSection[]>(taskSections);
+export function TaskSidePageView(): JSX.Element {
+  const sectionsFromStore = useSelector((state: RootState) =>
+    state.roadmap.activeRoadmapItem
+      ? state.roadmap.activeRoadmapItem.taskSections
+      : []
+  );
+  const activeItemTitle = useSelector((state: RootState) =>
+    state.roadmap.activeRoadmapItem ? state.roadmap.activeRoadmapItem.title : ''
+  );
+  const [sections, setSections] = useState<TaskSection[]>(sectionsFromStore);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // this useEffect needs deep comparision.
@@ -35,15 +40,15 @@ export function TaskSidePageView({
     // this reflects in the prop taskSection from parent component.
     // if no deep comparision, will cause a infinity loop
     if (
-      taskSections.length !== sections.length &&
-      sections[0]?.id !== taskSections[0]?.id
+      sectionsFromStore.length !== sections.length &&
+      sections[0]?.id !== sectionsFromStore[0]?.id
     ) {
-      setSections(taskSections);
+      setSections(sectionsFromStore);
     }
-  }, [taskSections]);
+  }, [sectionsFromStore]);
 
   useEffect(() => {
-    setTaskSections(sections);
+    dispatch(setActiveRoadmapItemTaskSection(sections));
   }, [sections]);
 
   const onSectionChange = (id: string, newSection: Omit<TaskSection, 'id'>) => {
@@ -72,7 +77,7 @@ export function TaskSidePageView({
 
   const onBackClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
-    onSidePageClose();
+    dispatch(setActiveRoadmapItem(null));
   };
 
   return (
@@ -84,7 +89,7 @@ export function TaskSidePageView({
         >
           <ArrowBackIcon />
         </IconButton>
-        <h4>{title}</h4>
+        <h4>{activeItemTitle}</h4>
       </div>
       {sections.map((section) => (
         <React.Fragment key={section.id}>

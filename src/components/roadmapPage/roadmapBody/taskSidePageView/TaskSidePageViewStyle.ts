@@ -2,5 +2,7 @@ import styled from 'styled-components';
 
 export const TaskSidePageViewWrapper = styled.div`
   background: white;
-  padding: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 100%;
 `;

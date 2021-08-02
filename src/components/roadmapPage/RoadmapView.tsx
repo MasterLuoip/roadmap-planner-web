@@ -20,7 +20,7 @@ export function RoadmapView(): JSX.Element {
   return (
     <>
       <TopBar />
-      <Grid container>
+      <Grid container style={{ flex: 1 }}>
         <Grid item xs>
           <MapBar />
           <RoadmapBody />

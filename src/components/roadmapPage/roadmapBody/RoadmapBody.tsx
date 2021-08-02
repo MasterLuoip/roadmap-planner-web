@@ -1,6 +1,6 @@
 import { Button } from '@material-ui/core';
 import { nanoid } from 'nanoid';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
 import {
@@ -8,7 +8,6 @@ import {
   changeItemListSingleItemName,
   deleteItemInItemList,
   selectActiveRoadmap,
-  selectActiveRoadmapItem,
   setActiveRoadmapItem,
 } from '../../../feature/roadmap/roadmapSlice';
 import { RoadmapBodyGridContainer } from './RoadmapBodyStyle';
@@ -21,7 +20,7 @@ export type ItemType = {
   taskSections: TaskSection[];
 };
 
-export function RoadmapBody({}: {}) {
+export function RoadmapBody() {
   const roadmapItemList = useSelector(selectActiveRoadmap);
   const itemList = roadmapItemList ? roadmapItemList.itemList : null;
 

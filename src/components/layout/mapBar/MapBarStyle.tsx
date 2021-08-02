@@ -29,7 +29,7 @@ export const NavigationWrapper = styled.div`
 `;
 
 type NavigationCardProps = {
-  backgroundStyle: cardBackgroundStyle;
+  $backgroundStyle: cardBackgroundStyle;
 };
 
 export enum cardBackgroundStyle {
@@ -45,7 +45,7 @@ const backgroundColorMap = {
 };
 
 export const NavigationCard = styled(Card)<NavigationCardProps>`
-  background: ${(prop) => backgroundColorMap[prop.backgroundStyle]};
+  background: ${(props) => backgroundColorMap[props.$backgroundStyle]};
   width: 225px;
   height: 100%;
   display: flex;
@@ -53,7 +53,7 @@ export const NavigationCard = styled(Card)<NavigationCardProps>`
   align-items: center;
   border-radius: 15px;
   border: ${(props) =>
-    props.backgroundStyle === cardBackgroundStyle.newItem
+    props.$backgroundStyle === cardBackgroundStyle.newItem
       ? '1px dashed black'
       : ''};
   margin-left: 20px;

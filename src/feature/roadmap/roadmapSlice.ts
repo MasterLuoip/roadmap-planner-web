@@ -1,8 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import {
-  ItemType,
-  RoadmapBody,
+  ItemType
 } from '../../components/roadmapPage/roadmapBody/RoadmapBody';
 import { TaskSection } from '../../components/roadmapPage/roadmapBody/taskSidePageView/TaskSidePageView';
 import { RoadmapType } from '../../components/roadmapPage/RoadmapView';

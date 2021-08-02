@@ -21,7 +21,7 @@ export function RoadmapView(): JSX.Element {
     <>
       <TopBar />
       <Grid container>
-        <Grid item xs direction='column'>
+        <Grid item xs>
           <MapBar />
           <RoadmapBody />
         </Grid>

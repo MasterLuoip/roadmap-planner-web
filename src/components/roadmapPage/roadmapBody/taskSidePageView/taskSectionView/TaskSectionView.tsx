@@ -1,22 +1,22 @@
-import { useEffect, useState } from 'react';
-import MdEditor from 'react-markdown-editor-lite';
-// import style manually
-import ReactMarkdown from 'react-markdown';
-import 'react-markdown-editor-lite/lib/index.css';
-import AddIcon from '@material-ui/icons/Add';
-import CloseIcon from '@material-ui/icons/Close';
-import EditIcon from '@material-ui/icons/Edit';
 import {
   Button,
   Checkbox,
   FormControl,
   FormControlLabel,
   IconButton,
-  TextField,
+  TextField
 } from '@material-ui/core';
-import { SectionWrapper } from './TaskSectionViewStyle';
-import { TaskSection } from '../TaskSidePageView';
+import AddIcon from '@material-ui/icons/Add';
+import CloseIcon from '@material-ui/icons/Close';
+import EditIcon from '@material-ui/icons/Edit';
 import { nanoid } from 'nanoid';
+import { useEffect, useState } from 'react';
+// import style manually
+import ReactMarkdown from 'react-markdown';
+import MdEditor from 'react-markdown-editor-lite';
+import 'react-markdown-editor-lite/lib/index.css';
+import { TaskSection } from '../TaskSidePageView';
+import { SectionWrapper } from './TaskSectionViewStyle';
 
 type TaskSectionComponentProp = {
   section: Omit<TaskSection, 'id'>;

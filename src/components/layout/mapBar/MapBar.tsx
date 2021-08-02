@@ -8,7 +8,6 @@ import { RootState } from '../../../app/store';
 import {
   addNewRoadmap,
   selectActiveRoadmap,
-  selectActiveRoadmapItem,
   setActiveRoadmap,
 } from '../../../feature/roadmap/roadmapSlice';
 import {
@@ -48,7 +47,7 @@ export function MapBar(): JSX.Element {
               onClick={() => {
                 onMapItemClick(map.id);
               }}
-              backgroundStyle={
+              $backgroundStyle={
                 activeRoadmap?.id === map.id
                   ? cardBackgroundStyle.selected
                   : cardBackgroundStyle.unselected
@@ -60,7 +59,7 @@ export function MapBar(): JSX.Element {
             </NavigationCard>
           ))}
           <NavigationCard
-            backgroundStyle={cardBackgroundStyle.newItem}
+            $backgroundStyle={cardBackgroundStyle.newItem}
             onClick={onNewRoadmapClick}
           >
             Add new one

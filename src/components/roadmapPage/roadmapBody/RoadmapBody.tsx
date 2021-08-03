@@ -9,7 +9,7 @@ import {
   deleteItemInItemList,
   selectActiveRoadmap,
   setActiveRoadmapItem,
-} from '../../../feature/roadmap/roadmapSlice';
+} from '../roadmapSlice/roadmapSlice';
 import { RoadmapBodyGridContainer } from './RoadmapBodyStyle';
 import { RoadmapItem } from './roadmapItem/RoadmapItem';
 import { TaskSection } from './taskSidePageView/TaskSidePageView';

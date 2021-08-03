@@ -9,7 +9,7 @@ import {
   addNewRoadmap,
   selectActiveRoadmap,
   setActiveRoadmap,
-} from '../../../feature/roadmap/roadmapSlice';
+} from '../../roadmapPage/roadmapSlice/roadmapSlice';
 import {
   cardBackgroundStyle,
   DropButton,

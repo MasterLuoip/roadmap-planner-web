@@ -10,7 +10,7 @@ import { RootState } from '../../../../app/store';
 import {
   setActiveRoadmapItem,
   setRoadmapItemTaskSection,
-} from '../../../../feature/roadmap/roadmapSlice';
+} from '../../roadmapSlice/roadmapSlice';
 
 export type TaskSection = {
   id: string;

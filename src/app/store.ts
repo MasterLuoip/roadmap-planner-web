@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import roadmapSlice from '../feature/roadmap/roadmapSlice';
+import roadmapSlice from '../components/roadmapPage/roadmapSlice/roadmapSlice';
 
 export const store = configureStore({
   reducer: {

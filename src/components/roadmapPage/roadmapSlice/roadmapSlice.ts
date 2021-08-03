@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../../app/store';
+import { RootState } from '../../../app/store';
 import {
   ItemType
-} from '../../components/roadmapPage/roadmapBody/RoadmapBody';
-import { TaskSection } from '../../components/roadmapPage/roadmapBody/taskSidePageView/TaskSidePageView';
-import { RoadmapType } from '../../components/roadmapPage/RoadmapView';
+} from '../roadmapBody/RoadmapBody';
+import { TaskSection } from '../roadmapBody/taskSidePageView/TaskSidePageView';
+import { RoadmapType } from '../RoadmapView';
 
 export type roadmapState = {
   roadmapList: RoadmapType[];

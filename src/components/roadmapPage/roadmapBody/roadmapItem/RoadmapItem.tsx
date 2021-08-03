@@ -9,7 +9,7 @@ import {
   CompleteStatusText,
   ItemTitle,
   RoadmapItemWrapper,
-  TitleWrapper
+  TitleWrapper,
 } from './RoadmapItemStyle';
 
 export type RoadmapItemType = {
@@ -19,7 +19,7 @@ export type RoadmapItemType = {
   onItemDelete: () => void;
   onClick: () => void;
 };
-export function RoadmapItem({
+export default function RoadmapItem({
   title,
   onClick,
   onAddClick,

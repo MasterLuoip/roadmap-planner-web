@@ -73,6 +73,7 @@ export default function RoadmapItem({
             <IconButton
               size='small'
               component='span'
+              data-testid='roadmapItem-editIcon'
               onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
                 stopPropagation(e, () => setIsEdit(true))
               }
@@ -82,6 +83,7 @@ export default function RoadmapItem({
             <IconButton
               size='small'
               component='span'
+              data-testid='roadmapItem-addIcon'
               onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
                 stopPropagation(e, onAddClick)
               }
@@ -91,6 +93,7 @@ export default function RoadmapItem({
             <IconButton
               size='small'
               component='span'
+              data-testid='roadmapItem-deleteIcon'
               onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
                 stopPropagation(e, onItemDelete)
               }

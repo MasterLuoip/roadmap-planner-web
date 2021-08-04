@@ -4,7 +4,7 @@ import {
   FormControl,
   FormControlLabel,
   IconButton,
-  TextField
+  TextField,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
@@ -29,10 +29,8 @@ export function TaskSectionView({
   onSectionChange,
   onSectionDelete,
 }: TaskSectionComponentProp): JSX.Element {
-  // const [section, setSection] = useState(section);
   const [mdText, setMdText] = useState(section.text);
   const [tasks, setTasks] = useState(section.tasks);
-  // const [mdText, setMdText] = useState(section.text);
   const [showEditor, setShowEditor] = useState(false);
 
   useEffect(() => {
@@ -121,6 +119,7 @@ export function TaskSectionView({
           </>
         ) : (
           <IconButton
+            data-testid="TaskSectionView-editIcon"
             component='span'
             onClick={() => setShowEditor(true)}
             style={{ marginLeft: '-13px' }}
@@ -136,6 +135,7 @@ export function TaskSectionView({
             <FormControl component='fieldset' key={index}>
               <div style={{ marginBottom: '20px' }}>
                 <IconButton
+                  data-testid="TaskSectionView-deleteTaskBtn"
                   size='small'
                   component='span'
                   onClick={() => onTaskDelete(task.id)}
@@ -143,7 +143,7 @@ export function TaskSectionView({
                   <CloseIcon style={{ color: 'red' }} />
                 </IconButton>
                 <TextField
-                  aria-describedby='my-helper-text'
+                  data-testid="TaskSectionView-nameInput"
                   value={task.label}
                   onChange={(e) => onLabelChange(task.id, e.target.value)}
                   size='small'

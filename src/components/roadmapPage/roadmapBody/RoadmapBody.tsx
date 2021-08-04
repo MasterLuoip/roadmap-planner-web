@@ -11,7 +11,7 @@ import {
   setActiveRoadmapItem,
 } from '../roadmapSlice/roadmapSlice';
 import { RoadmapBodyGridContainer } from './RoadmapBodyStyle';
-import { RoadmapItem } from './roadmapItem/RoadmapItem';
+import RoadmapItem from './roadmapItem/RoadmapItem';
 import { TaskSection } from './taskSidePageView/TaskSidePageView';
 
 export type ItemType = {

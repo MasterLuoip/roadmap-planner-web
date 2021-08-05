@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, getByRole, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { TaskSectionView } from './TaskSectionView';
 
@@ -89,10 +89,44 @@ describe('TaskSectionView', () => {
     );
     userEvent.click(screen.getByTestId('TaskSectionView-editIcon'));
     const nameInputs = screen.getAllByRole('textbox');
-    (nameInputs[0] as HTMLInputElement).value = '123';
-    screen.debug(nameInputs[0]);
+    fireEvent.change(nameInputs[0], { target: { value: '' } });
     expect(nameInputs[0]).toHaveValue('');
     userEvent.type(nameInputs[0], 'this is a new task');
-    expect(screen.getByText('this is a new task')).toBeInTheDocument();
+    expect(nameInputs[0]).toHaveValue('this is a new task');
+  });
+
+  test('change markdown text', async () => {
+    const onSectionChange = jest.fn();
+    const onSectionDelete = jest.fn();
+    render(
+      <TaskSectionView
+        section={taskSection}
+        onSectionChange={onSectionChange}
+        onSectionDelete={onSectionDelete}
+      />
+    );
+    userEvent.click(screen.getByTestId('TaskSectionView-editIcon'));
+    const mdEditor = screen.getAllByRole('textbox')[1];
+    fireEvent.change(mdEditor, { target: { value: '' } });
+    expect(mdEditor).toHaveValue('');
+    userEvent.type(mdEditor, 'this is a new markdown content');
+    expect(mdEditor).toHaveValue('this is a new markdown content');
+  });
+
+  test('add new test', async () => {
+    const onSectionChange = jest.fn();
+    const onSectionDelete = jest.fn();
+    render(
+      <TaskSectionView
+        section={taskSection}
+        onSectionChange={onSectionChange}
+        onSectionDelete={onSectionDelete}
+      />
+    );
+    userEvent.click(screen.getByTestId('TaskSectionView-editIcon'));
+    const addIcon = screen.getByTestId('TaskSectionView-taskAddIcon');
+    const textBoxNo = screen.getAllByRole('textbox').length;
+    userEvent.click(addIcon);
+    expect(screen.getAllByRole('textbox').length).toBe(textBoxNo + 1);
   });
 });

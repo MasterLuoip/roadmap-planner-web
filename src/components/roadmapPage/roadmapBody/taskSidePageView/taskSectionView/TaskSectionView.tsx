@@ -109,6 +109,7 @@ export function TaskSectionView({
             </div>
             <div>
               <IconButton
+                data-testid="TaskSectionView-taskAddIcon"
                 size='small'
                 style={{ marginBottom: '10px' }}
                 onClick={onTaskAdd}

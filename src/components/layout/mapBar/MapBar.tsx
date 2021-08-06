@@ -1,32 +1,22 @@
-import { IconButton, TextField, Typography } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import EditIcon from '@material-ui/icons/Edit';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
-import { stopFuncDefaultPropagation } from '../../../utils/helperFunctions/helpers';
-import EditableText from '../../common/EditableText';
-import {
-  ItemTitle,
-  TitleWrapper,
-} from '../../roadmapPage/roadmapBody/roadmapItem/RoadmapItemStyle';
 import {
   addNewRoadmap,
   changeRoadMapName,
   deleteARoadMap,
   selectActiveRoadmap,
-  setActiveRoadmap,
+  setActiveRoadmap
 } from '../../roadmapPage/roadmapSlice/roadmapSlice';
+import MapBardCard from './MapBarCard/MapBarCard';
 import {
   cardBackgroundStyle,
-  DropButton,
-  MapActionButtonsArea,
-  MapBarWrapper,
+  DropButton, MapBarWrapper,
   NavigationCard,
-  NavigationWrapper,
+  NavigationWrapper
 } from './MapBarStyle';
 
 export function MapBar(): JSX.Element {
@@ -58,50 +48,16 @@ export function MapBar(): JSX.Element {
       {showMapBar && (
         <NavigationWrapper>
           {localMapList.map((map, index) => (
-            <NavigationCard
+            <MapBardCard
               key={map.id}
-              onClick={() => {
-                onMapItemClick(map.id);
-              }}
-              $backgroundStyle={
-                activeRoadmap?.id === map.id
-                  ? cardBackgroundStyle.selected
-                  : cardBackgroundStyle.unselected
+              title={map.title}
+              isActive={activeRoadmap !== null && activeRoadmap.id === map.id}
+              onMapClick={() => onMapItemClick(map.id)}
+              onDelete={() => deleteMap(map.id)}
+              onTitleChange={(newTitle) =>
+                dispatch(changeRoadMapName({ id: map.id, title: newTitle }))
               }
-              onMouseOver={() => setHoverId(map.id)}
-              onMouseLeave={() => setHoverId(null)}
-            >
-              {hoverId === map.id && (
-                <MapActionButtonsArea>
-                  <IconButton
-                    size='small'
-                    onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                      stopFuncDefaultPropagation(e, () => setEdittingId(map.id))
-                    }
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    size='small'
-                    onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                      stopFuncDefaultPropagation(e, () => deleteMap(map.id))
-                    }
-                  >
-                    <CloseIcon style={{ color: 'red' }} />
-                  </IconButton>
-                </MapActionButtonsArea>
-              )}
-              <TitleWrapper>
-                <EditableText
-                  title={map.title}
-                  isTitleShowed={edittingId === map.id}
-                  onTitleChange={(newTitle) =>
-                    dispatch(changeRoadMapName({ id: map.id, title: newTitle }))
-                  }
-                  onEnterPress={() => setEdittingId(null)}
-                />
-              </TitleWrapper>
-            </NavigationCard>
+            />
           ))}
           <NavigationCard
             $backgroundStyle={cardBackgroundStyle.newItem}

@@ -45,6 +45,7 @@ const backgroundColorMap = {
 };
 
 export const NavigationCard = styled(Card)<NavigationCardProps>`
+  position: relative;
   background: ${(props) => backgroundColorMap[props.$backgroundStyle]};
   width: 225px;
   height: 100%;
@@ -58,4 +59,10 @@ export const NavigationCard = styled(Card)<NavigationCardProps>`
       : ''};
   margin-left: 20px;
   cursor: pointer;
+`;
+
+export const MapActionButtonsArea = styled.div`
+  position: absolute;
+  top: 5px;
+  right: 5px;
 `;

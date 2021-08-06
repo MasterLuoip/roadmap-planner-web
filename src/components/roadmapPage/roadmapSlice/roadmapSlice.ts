@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../app/store';
-import {
-  ItemType
-} from '../roadmapBody/RoadmapBody';
+import { ItemType } from '../roadmapBody/RoadmapBody';
 import { TaskSection } from '../roadmapBody/taskSidePageView/TaskSidePageView';
 import { RoadmapType } from '../RoadmapView';
 
@@ -47,6 +45,19 @@ export const roadmapSlice = createSlice({
     },
     addNewRoadmap: (state, { payload }: { payload: RoadmapType }) => {
       state.roadmapList.push(payload);
+    },
+    deleteARoadMap: (state, { payload }: { payload: string }) => {
+      state.roadmapList = state.roadmapList.filter((map) => map.id !== payload);
+    },
+    changeRoadMapName: (
+      state,
+      { payload: { id, title } }: { payload: { id: string; title: string } }
+    ) => {
+      state.roadmapList.forEach((m) => {
+        if (m.id === id) {
+          m.title = title;
+        }
+      });
     },
     addItemInRoadmap: (
       state,
@@ -142,6 +153,8 @@ export const {
   setActiveRoadmapItem,
   setActiveRoadmap,
   addNewRoadmap,
+  deleteARoadMap,
+  changeRoadMapName,
   addItemInRoadmap,
   removeItemInRoadmap,
   setItemTitleById,

@@ -109,7 +109,7 @@ export function TaskSectionView({
             </div>
             <div>
               <IconButton
-                data-testid="TaskSectionView-taskAddIcon"
+                data-testid='TaskSectionView-taskAddIcon'
                 size='small'
                 style={{ marginBottom: '10px' }}
                 onClick={onTaskAdd}
@@ -120,12 +120,12 @@ export function TaskSectionView({
           </>
         ) : (
           <IconButton
-            data-testid="TaskSectionView-editIcon"
+            data-testid='TaskSectionView-editIcon'
             component='span'
             onClick={() => setShowEditor(true)}
             style={{ marginLeft: '-13px' }}
           >
-            <EditIcon color='primary' />
+            <EditIcon />
           </IconButton>
         )}
       </div>
@@ -136,7 +136,7 @@ export function TaskSectionView({
             <FormControl component='fieldset' key={index}>
               <div style={{ marginBottom: '20px' }}>
                 <IconButton
-                  data-testid="TaskSectionView-deleteTaskBtn"
+                  data-testid='TaskSectionView-deleteTaskBtn'
                   size='small'
                   component='span'
                   onClick={() => onTaskDelete(task.id)}
@@ -144,7 +144,7 @@ export function TaskSectionView({
                   <CloseIcon style={{ color: 'red' }} />
                 </IconButton>
                 <TextField
-                  data-testid="TaskSectionView-nameInput"
+                  data-testid='TaskSectionView-nameInput'
                   value={task.label}
                   onChange={(e) => onLabelChange(task.id, e.target.value)}
                   size='small'

@@ -3,6 +3,7 @@ import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 import CreateIcon from '@material-ui/icons/Create';
 import React, { useState } from 'react';
+import { stopFuncDefaultPropagation } from '../../../../utils/helperFunctions/helpers';
 import {
   ActionWrapper,
   CardDivider,
@@ -29,14 +30,6 @@ export default function RoadmapItem({
   const [isHoverd, setIsHoverd] = useState(false);
   const [localTitle, setLocalTitle] = useState(title);
   const [isEdit, setIsEdit] = useState(false);
-
-  const stopPropagation = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    func: Function
-  ) => {
-    e.stopPropagation();
-    func();
-  };
 
   return (
     <RoadmapItemWrapper
@@ -75,7 +68,7 @@ export default function RoadmapItem({
               component='span'
               data-testid='roadmapItem-editIcon'
               onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                stopPropagation(e, () => setIsEdit(true))
+                stopFuncDefaultPropagation(e, () => setIsEdit(true))
               }
             >
               <CreateIcon style={{ color: 'grey' }} />
@@ -85,7 +78,7 @@ export default function RoadmapItem({
               component='span'
               data-testid='roadmapItem-addIcon'
               onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                stopPropagation(e, onAddClick)
+                stopFuncDefaultPropagation(e, onAddClick)
               }
             >
               <AddIcon style={{ color: 'green' }} />
@@ -95,7 +88,7 @@ export default function RoadmapItem({
               component='span'
               data-testid='roadmapItem-deleteIcon'
               onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                stopPropagation(e, onItemDelete)
+                stopFuncDefaultPropagation(e, onItemDelete)
               }
             >
               <CloseIcon style={{ color: 'red' }} />

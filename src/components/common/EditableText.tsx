@@ -21,6 +21,7 @@ export default function EditableText({
       <div>
         {isTitleShowed ? (
           <TextField
+            autoFocus
             value={localTitle}
             onChange={(e) => {
               setLocalTitle(e.target.value);

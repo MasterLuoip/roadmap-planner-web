@@ -9,14 +9,15 @@ import {
   changeRoadMapName,
   deleteARoadMap,
   selectActiveRoadmap,
-  setActiveRoadmap
+  setActiveRoadmap,
 } from '../../roadmapPage/roadmapSlice/roadmapSlice';
 import MapBardCard from './MapBarCard/MapBarCard';
 import {
   cardBackgroundStyle,
-  DropButton, MapBarWrapper,
+  DropButton,
+  MapBarWrapper,
   NavigationCard,
-  NavigationWrapper
+  NavigationWrapper,
 } from './MapBarStyle';
 
 export function MapBar(): JSX.Element {
@@ -25,8 +26,6 @@ export function MapBar(): JSX.Element {
   });
   const activeRoadmap = useSelector(selectActiveRoadmap);
   const [showMapBar, setShowMapBar] = useState(false);
-  const [hoverId, setHoverId] = useState<string | null>(null);
-  const [edittingId, setEdittingId] = useState<string | null>(null);
   const dispatch = useDispatch();
 
   const onNewRoadmapClick = () => {
@@ -47,24 +46,28 @@ export function MapBar(): JSX.Element {
     <MapBarWrapper>
       {showMapBar && (
         <NavigationWrapper>
-          {localMapList.map((map, index) => (
-            <MapBardCard
-              key={map.id}
-              title={map.title}
-              isActive={activeRoadmap !== null && activeRoadmap.id === map.id}
-              onMapClick={() => onMapItemClick(map.id)}
-              onDelete={() => deleteMap(map.id)}
-              onTitleChange={(newTitle) =>
-                dispatch(changeRoadMapName({ id: map.id, title: newTitle }))
-              }
-            />
-          ))}
           <NavigationCard
             $backgroundStyle={cardBackgroundStyle.newItem}
             onClick={onNewRoadmapClick}
+            style={{ minWidth: '40px', width: '40px' }}
           >
-            Add new one
+            +
           </NavigationCard>
+          {localMapList
+            .slice()
+            .reverse()
+            .map((map, index) => (
+              <MapBardCard
+                key={map.id}
+                title={map.title}
+                isActive={activeRoadmap !== null && activeRoadmap.id === map.id}
+                onMapClick={() => onMapItemClick(map.id)}
+                onDelete={() => deleteMap(map.id)}
+                onTitleChange={(newTitle) =>
+                  dispatch(changeRoadMapName({ id: map.id, title: newTitle }))
+                }
+              />
+            ))}
         </NavigationWrapper>
       )}
       <DropButton onClick={() => setShowMapBar(!showMapBar)}>

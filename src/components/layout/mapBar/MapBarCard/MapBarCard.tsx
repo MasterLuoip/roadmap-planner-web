@@ -8,7 +8,7 @@ import { TitleWrapper } from '../../../roadmapPage/roadmapBody/roadmapItem/Roadm
 import {
   cardBackgroundStyle,
   MapActionButtonsArea,
-  NavigationCard
+  NavigationCard,
 } from '../MapBarStyle';
 
 type MapBarCardProps = {
@@ -41,7 +41,9 @@ export default function MapBardCard({
           <IconButton
             size='small'
             onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-              stopFuncDefaultPropagation(e, () => setTitleEditting(true))
+              stopFuncDefaultPropagation(e, () =>
+                setTitleEditting(!isTitleEditting)
+              )
             }
           >
             <EditIcon />

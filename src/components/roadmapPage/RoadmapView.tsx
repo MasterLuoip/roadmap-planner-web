@@ -21,12 +21,12 @@ export function RoadmapView(): JSX.Element {
     <>
       <TopBar />
       <Grid container style={{ flex: 1 }}>
-        <Grid item xs>
+        <Grid item xs={isSidePanelShowed ? 4 : 12}>
           <MapBar />
           <RoadmapBody />
         </Grid>
         {isSidePanelShowed && (
-          <Grid item xs={8}>
+          <Grid item xs>
             <TaskSidePageView />
           </Grid>
         )}

@@ -22,6 +22,8 @@ export const NavigationWrapper = styled.div`
   background: linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%);
   display: flex;
   align-items: center;
+  overflow-x: scroll;
+  overflow-y: hidden;
   width: 100%;
   height: 150px;
   padding-top: 20px;
@@ -47,7 +49,8 @@ const backgroundColorMap = {
 export const NavigationCard = styled(Card)<NavigationCardProps>`
   position: relative;
   background: ${(props) => backgroundColorMap[props.$backgroundStyle]};
-  width: 225px;
+  width: 200px;
+  min-width: 200px;
   height: 100%;
   display: flex;
   justify-content: center;

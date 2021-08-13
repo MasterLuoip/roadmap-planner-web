@@ -3,6 +3,6 @@ var router = express.Router();
 const db = require('../queries');
 
 /* GET users listing. */
-router.get('/', db.getUsers);
+router.get('/', db.getRoadmaps);
 
 module.exports = router;

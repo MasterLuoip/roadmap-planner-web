@@ -1,8 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/roadmaps', (req, res, next) => {
-  res.send('this is api get');
-});
+const db = require('../queries');
+router.get('/roadmaps', db.getRoadmaps);
 
 module.exports = router;

@@ -6,6 +6,7 @@ import { MapBar } from '../layout/mapBar/MapBar';
 import { TopBar } from '../layout/topBar/TopBar';
 import { StageType, RoadmapBody } from './roadmapBody/RoadmapBody';
 import { TaskSidePageView } from './roadmapBody/taskSidePageView/TaskSidePageView';
+import { getRoadmapAsync } from './roadmapSlice/roadmapSlice';
 
 export type RoadmapType = {
   id: string;
@@ -14,7 +15,7 @@ export type RoadmapType = {
 };
 export function RoadmapView(): JSX.Element {
   const dispatch = useDispatch();
-  dispatch({ type: 'UPDATE_ROADMAPS' });
+  dispatch(getRoadmapAsync());
   const isSidePanelShowed = useSelector(
     (state: RootState) => state.roadmap.activeRoadmapItem !== null
   );

@@ -21,6 +21,9 @@ export const roadmapSlice = createSlice({
   name: 'roadmap',
   initialState,
   reducers: {
+    getRoadmapAsync: () => {
+      // just a trigger to call saga
+    },
     updateRoadmaps: (state, { payload }: { payload: RoadmapType[] }) => {
       state.roadmapList = payload;
     },
@@ -153,6 +156,7 @@ export const roadmapSlice = createSlice({
 
 // actions
 export const {
+  getRoadmapAsync,
   updateRoadmaps,
   setActiveRoadmapItem,
   setActiveRoadmap,

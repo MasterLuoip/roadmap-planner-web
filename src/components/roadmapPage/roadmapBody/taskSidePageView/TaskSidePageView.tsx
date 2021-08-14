@@ -19,7 +19,7 @@ export type StageSection = {
     completed: boolean;
     content: string;
   }[];
-  text: string;
+  content: string;
 };
 
 export function TaskSidePageView(): JSX.Element {
@@ -69,7 +69,7 @@ export function TaskSidePageView(): JSX.Element {
       {
         id: newId,
         checkpoints: [],
-        text: 'I am new',
+        content: 'I am new',
       },
     ]);
   };
@@ -98,7 +98,10 @@ export function TaskSidePageView(): JSX.Element {
         <React.Fragment key={section.id}>
           <Divider />
           <TaskSectionView
-            section={{ text: section.text, checkpoints: section.checkpoints }}
+            section={{
+              content: section.content,
+              checkpoints: section.checkpoints,
+            }}
             onSectionChange={(newSection: Omit<StageSection, 'id'>) =>
               onSectionChange(section.id, newSection)
             }

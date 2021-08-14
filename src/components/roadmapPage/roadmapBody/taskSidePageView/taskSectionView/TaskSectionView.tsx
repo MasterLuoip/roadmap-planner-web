@@ -29,14 +29,14 @@ export function TaskSectionView({
   onSectionChange,
   onSectionDelete,
 }: TaskSectionComponentProp): JSX.Element {
-  const [mdText, setMdText] = useState(section.text);
+  const [mdText, setMdText] = useState(section.content);
   const [tasks, setTasks] = useState(section.checkpoints);
   const [showEditor, setShowEditor] = useState(false);
 
   useEffect(() => {
     const newSection: Omit<StageSection, 'id'> = {
       checkpoints: tasks,
-      text: mdText,
+      content: mdText,
     };
     onSectionChange(newSection);
   }, [mdText, tasks]);

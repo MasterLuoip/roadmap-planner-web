@@ -22,7 +22,7 @@ export type ItemType = {
 
 export function RoadmapBody() {
   const roadmapItemList = useSelector(selectActiveRoadmap);
-  const itemList = roadmapItemList ? roadmapItemList.itemList : null;
+  const itemList = roadmapItemList ? roadmapItemList.stages : null;
 
   const activeItem = useSelector(
     (state: RootState) => state.roadmap.activeRoadmapItem
@@ -58,31 +58,34 @@ export function RoadmapBody() {
   };
   return (
     <RoadmapBodyGridContainer container direction='column' alignItems='center'>
-      {itemList === null ? (
-        <div>Please create or select a roadmap to start</div>
-      ) : itemList.length === 0 ? (
-        <Button
-          variant='contained'
-          color='secondary'
-          onClick={() => onAddClick()}
-        >
-          Add your first item
-        </Button>
+      {Array.isArray(itemList) ? (
+        itemList.length === 0 ? (
+          <Button
+            variant='contained'
+            color='secondary'
+            onClick={() => onAddClick()}
+          >
+            Add your first item
+          </Button>
+        ) : (
+          itemList.map((item, index) => {
+            debugger;
+            return (
+              <RoadmapItem
+                key={item.id}
+                title={item.title}
+                onClick={() => onItemClick(item)}
+                onAddClick={() => onAddClick(item.id)}
+                onTitleChange={(newTitle: string) => {
+                  onTitleChange(item.id, newTitle);
+                }}
+                onItemDelete={() => onItemDelete(item.id)}
+              />
+            );
+          })
+        )
       ) : (
-        itemList.map((item, index) => {
-          return (
-            <RoadmapItem
-              key={item.id}
-              title={item.title}
-              onClick={() => onItemClick(item)}
-              onAddClick={() => onAddClick(item.id)}
-              onTitleChange={(newTitle: string) => {
-                onTitleChange(item.id, newTitle);
-              }}
-              onItemDelete={() => onItemDelete(item.id)}
-            />
-          );
-        })
+        <div>Please create or select a roadmap to start</div>
       )}
     </RoadmapBodyGridContainer>
   );

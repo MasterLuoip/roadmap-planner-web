@@ -21,6 +21,9 @@ export const roadmapSlice = createSlice({
   name: 'roadmap',
   initialState,
   reducers: {
+    updateRoadmaps: (state, { payload }: { payload: RoadmapType[] }) => {
+      state.roadmapList = payload;
+    },
     setActiveRoadmapItem: (
       state,
       { payload }: { payload: ItemType | null }
@@ -150,6 +153,7 @@ export const roadmapSlice = createSlice({
 
 // actions
 export const {
+  updateRoadmaps,
   setActiveRoadmapItem,
   setActiveRoadmap,
   addNewRoadmap,

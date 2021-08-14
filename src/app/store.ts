@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
 import roadmapSlice from '../components/roadmapPage/roadmapSlice/roadmapSlice';
-import { helloSaga } from './saga';
+import rootSaga from './saga';
 
 const sagaMiddleware = createSagaMiddleware();
 export const store = configureStore({
@@ -11,7 +11,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),
 });
-sagaMiddleware.run(helloSaga)
+sagaMiddleware.run(rootSaga)
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
 

@@ -1,6 +1,6 @@
 import { Grid } from '@material-ui/core';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { MapBar } from '../layout/mapBar/MapBar';
 import { TopBar } from '../layout/topBar/TopBar';
@@ -13,6 +13,8 @@ export type RoadmapType = {
   itemList: ItemType[];
 };
 export function RoadmapView(): JSX.Element {
+  const dispatch = useDispatch();
+  dispatch({ type: 'UPDATE_ROADMAPS' });
   const isSidePanelShowed = useSelector(
     (state: RootState) => state.roadmap.activeRoadmapItem !== null
   );

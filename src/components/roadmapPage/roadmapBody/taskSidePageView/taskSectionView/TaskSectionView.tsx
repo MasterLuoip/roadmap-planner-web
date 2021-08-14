@@ -73,10 +73,14 @@ export function TaskSectionView({
   const onLabelChange = (id: string, value: string) => {
     setTasks((tasks) => {
       return tasks.map((task) => {
-        task.content = task.id === id ? value : task.content;
+        task = { ...task, content: task.id === id ? value : task.content };
         return task;
       });
     });
+  };
+
+  const onSectionSave = () => {
+    setShowEditor(false);
   };
   return (
     <SectionWrapper>
@@ -91,7 +95,7 @@ export function TaskSectionView({
                   color: 'white',
                   marginBottom: '20px',
                 }}
-                onClick={() => setShowEditor(false)}
+                onClick={onSectionSave}
               >
                 Save
               </Button>

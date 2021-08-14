@@ -15,12 +15,12 @@ import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
-import { TaskSection } from '../TaskSidePageView';
+import { StageSection } from '../TaskSidePageView';
 import { SectionWrapper } from './TaskSectionViewStyle';
 
 type TaskSectionComponentProp = {
-  section: Omit<TaskSection, 'id'>;
-  onSectionChange: (newSection: Omit<TaskSection, 'id'>) => void;
+  section: Omit<StageSection, 'id'>;
+  onSectionChange: (newSection: Omit<StageSection, 'id'>) => void;
   onSectionDelete: () => void;
 };
 
@@ -30,12 +30,12 @@ export function TaskSectionView({
   onSectionDelete,
 }: TaskSectionComponentProp): JSX.Element {
   const [mdText, setMdText] = useState(section.text);
-  const [tasks, setTasks] = useState(section.tasks);
+  const [tasks, setTasks] = useState(section.checkpoints);
   const [showEditor, setShowEditor] = useState(false);
 
   useEffect(() => {
-    const newSection: Omit<TaskSection, 'id'> = {
-      tasks,
+    const newSection: Omit<StageSection, 'id'> = {
+      checkpoints: tasks,
       text: mdText,
     };
     onSectionChange(newSection);
@@ -64,7 +64,7 @@ export function TaskSectionView({
         {
           id: nanoid(),
           completed: false,
-          label: 'new item',
+          content: 'new item',
         },
       ];
     });
@@ -73,7 +73,7 @@ export function TaskSectionView({
   const onLabelChange = (id: string, value: string) => {
     setTasks((tasks) => {
       return tasks.map((task) => {
-        task.label = task.id === id ? value : task.label;
+        task.content = task.id === id ? value : task.content;
         return task;
       });
     });
@@ -145,7 +145,7 @@ export function TaskSectionView({
                 </IconButton>
                 <TextField
                   data-testid='TaskSectionView-nameInput'
-                  value={task.label}
+                  value={task.content}
                   onChange={(e) => onLabelChange(task.id, e.target.value)}
                   size='small'
                 />
@@ -158,11 +158,11 @@ export function TaskSectionView({
                 <Checkbox
                   checked={task.completed}
                   onChange={() => onTaskCheck(task.id)}
-                  name={task.label}
+                  name={task.content}
                   color='primary'
                 />
               }
-              label={task.label}
+              label={task.content}
             />
           )
         )}

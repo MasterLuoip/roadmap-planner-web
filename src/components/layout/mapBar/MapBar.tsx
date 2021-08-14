@@ -30,7 +30,7 @@ export function MapBar(): JSX.Element {
 
   const onNewRoadmapClick = () => {
     dispatch(
-      addNewRoadmap({ id: nanoid(), title: 'new roadmap', itemList: [] })
+      addNewRoadmap({ id: nanoid(), title: 'new roadmap', stages: [] })
     );
   };
   const onMapItemClick = (id: string) => {

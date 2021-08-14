@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { MapBar } from '../layout/mapBar/MapBar';
 import { TopBar } from '../layout/topBar/TopBar';
-import { ItemType, RoadmapBody } from './roadmapBody/RoadmapBody';
+import { StageType, RoadmapBody } from './roadmapBody/RoadmapBody';
 import { TaskSidePageView } from './roadmapBody/taskSidePageView/TaskSidePageView';
 
 export type RoadmapType = {
   id: string;
   title: string;
-  itemList: ItemType[];
+  stages: StageType[];
 };
 export function RoadmapView(): JSX.Element {
   const dispatch = useDispatch();

@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../../../app/store';
-import { ItemType } from '../roadmapBody/RoadmapBody';
-import { TaskSection } from '../roadmapBody/taskSidePageView/TaskSidePageView';
+import { StageType } from '../roadmapBody/RoadmapBody';
+import { StageSection } from '../roadmapBody/taskSidePageView/TaskSidePageView';
 import { RoadmapType } from '../RoadmapView';
 
 export type roadmapState = {
   roadmapList: RoadmapType[];
   activeRoadmap: RoadmapType | null;
-  activeRoadmapItem: ItemType | null;
+  activeRoadmapItem: StageType | null;
 };
 
 const initialState: roadmapState = {
@@ -26,7 +26,7 @@ export const roadmapSlice = createSlice({
     },
     setActiveRoadmapItem: (
       state,
-      { payload }: { payload: ItemType | null }
+      { payload }: { payload: StageType | null }
     ) => {
       if (payload === null) {
         state.activeRoadmapItem = null;
@@ -34,7 +34,7 @@ export const roadmapSlice = createSlice({
       // n^2 order, refactor this.
       state.roadmapList.forEach((roadmap) => {
         if (roadmap.id === state.activeRoadmap?.id) {
-          roadmap.itemList.forEach((item) => {
+          roadmap.stages.forEach((item) => {
             if (item.id === payload?.id) {
               state.activeRoadmapItem = item;
               return;
@@ -64,9 +64,9 @@ export const roadmapSlice = createSlice({
     },
     addItemInRoadmap: (
       state,
-      { payload: { id, item } }: { payload: { id: string; item: ItemType } }
+      { payload: { id, item } }: { payload: { id: string; item: StageType } }
     ) => {
-      state.roadmapList.find((x) => x.id === id)?.itemList.push(item);
+      state.roadmapList.find((x) => x.id === id)?.stages.push(item);
     },
     removeItemInRoadmap: (
       state,
@@ -76,25 +76,25 @@ export const roadmapSlice = createSlice({
     ) => {
       state.roadmapList
         .find((x) => x.id === roadmapId)
-        ?.itemList.filter((item) => item.id !== itemId);
+        ?.stages.filter((item) => item.id !== itemId);
     },
     setItemTitleById: (
       state,
-      { payload: { id, item } }: { payload: { id: string; item: ItemType } }
+      { payload: { id, item } }: { payload: { id: string; item: StageType } }
     ) => {
-      state.roadmapList.find((x) => x.id === id)?.itemList.push(item);
+      state.roadmapList.find((x) => x.id === id)?.stages.push(item);
     },
     setRoadmapItemTaskSection: (
       { roadmapList, activeRoadmap, activeRoadmapItem },
-      { payload }: { payload: TaskSection[] }
+      { payload }: { payload: StageSection[] }
     ) => {
       // if (state.activeRoadmapItem)
       //   state.activeRoadmapItem.taskSections = payload;
       roadmapList.forEach((roadmap) => {
         if (roadmap.id === activeRoadmap?.id) {
-          roadmap.itemList.forEach((item) => {
+          roadmap.stages.forEach((item) => {
             if (item.id === activeRoadmapItem?.id) {
-              item.taskSections = payload;
+              item.sections = payload;
             }
           });
         }
@@ -104,15 +104,15 @@ export const roadmapSlice = createSlice({
       state,
       {
         payload: { newItem, id },
-      }: { payload: { newItem: ItemType; id?: string } }
+      }: { payload: { newItem: StageType; id?: string } }
     ) => {
       if (state.activeRoadmap === null) return;
       if (id === undefined && state.activeRoadmap !== null) {
-        state.activeRoadmap.itemList.push(newItem);
+        state.activeRoadmap.stages.push(newItem);
       }
-      const index = state.activeRoadmap.itemList.findIndex((i) => i.id === id);
+      const index = state.activeRoadmap.stages.findIndex((i) => i.id === id);
       if (index !== -1) {
-        state.activeRoadmap.itemList.splice(index + 1, 0, newItem);
+        state.activeRoadmap.stages.splice(index + 1, 0, newItem);
       }
       state.roadmapList = state.roadmapList.map((item) => {
         return item.id === state.activeRoadmap?.id ? state.activeRoadmap : item;
@@ -143,9 +143,9 @@ export const roadmapSlice = createSlice({
       { payload: { id } }: { payload: { id: string } }
     ) => {
       if (state.activeRoadmap === null) return;
-      const index = state.activeRoadmap.itemList.findIndex((i) => i.id === id);
+      const index = state.activeRoadmap.stages.findIndex((i) => i.id === id);
       if (index !== -1) {
-        state.activeRoadmap.itemList.splice(index, 1);
+        state.activeRoadmap.stages.splice(index, 1);
       }
     },
   },

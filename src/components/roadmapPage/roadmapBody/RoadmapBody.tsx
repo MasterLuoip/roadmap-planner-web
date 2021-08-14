@@ -12,12 +12,12 @@ import {
 } from '../roadmapSlice/roadmapSlice';
 import { RoadmapBodyGridContainer } from './RoadmapBodyStyle';
 import RoadmapItem from './roadmapItem/RoadmapItem';
-import { TaskSection } from './taskSidePageView/TaskSidePageView';
+import { StageSection } from './taskSidePageView/TaskSidePageView';
 
-export type ItemType = {
+export type StageType = {
   id: string;
   title: string;
-  taskSections: TaskSection[];
+  sections: StageSection[];
 };
 
 export function RoadmapBody() {
@@ -35,7 +35,7 @@ export function RoadmapBody() {
         newItem: {
           title: 'new item',
           id: nanoid(),
-          taskSections: [],
+          sections: [],
         },
         id,
       })
@@ -53,7 +53,7 @@ export function RoadmapBody() {
     dispatch(deleteItemInItemList({ id }));
   };
 
-  const onItemClick = (item: ItemType) => {
+  const onItemClick = (item: StageType) => {
     dispatch(setActiveRoadmapItem(item));
   };
   return (
@@ -69,7 +69,6 @@ export function RoadmapBody() {
           </Button>
         ) : (
           itemList.map((item, index) => {
-            debugger;
             return (
               <RoadmapItem
                 key={item.id}

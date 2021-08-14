@@ -12,12 +12,12 @@ import {
   setRoadmapItemTaskSection,
 } from '../../roadmapSlice/roadmapSlice';
 
-export type TaskSection = {
+export type StageSection = {
   id: string;
-  tasks: {
+  checkpoints: {
     id: string;
     completed: boolean;
-    label: string;
+    content: string;
   }[];
   text: string;
 };
@@ -25,13 +25,13 @@ export type TaskSection = {
 export function TaskSidePageView(): JSX.Element {
   const sectionsFromStore = useSelector((state: RootState) =>
     state.roadmap.activeRoadmapItem
-      ? state.roadmap.activeRoadmapItem.taskSections
+      ? state.roadmap.activeRoadmapItem.sections
       : []
   );
   const activeItemTitle = useSelector((state: RootState) =>
     state.roadmap.activeRoadmapItem ? state.roadmap.activeRoadmapItem.title : ''
   );
-  const [sections, setSections] = useState<TaskSection[]>(sectionsFromStore);
+  const [sections, setSections] = useState<StageSection[]>(sectionsFromStore);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -51,7 +51,10 @@ export function TaskSidePageView(): JSX.Element {
     dispatch(setRoadmapItemTaskSection(sections));
   }, [sections]);
 
-  const onSectionChange = (id: string, newSection: Omit<TaskSection, 'id'>) => {
+  const onSectionChange = (
+    id: string,
+    newSection: Omit<StageSection, 'id'>
+  ) => {
     setSections((sections) => {
       return sections.map((section) => {
         return section.id === id ? { ...newSection, id } : section;
@@ -65,7 +68,7 @@ export function TaskSidePageView(): JSX.Element {
       ...sections,
       {
         id: newId,
-        tasks: [],
+        checkpoints: [],
         text: 'I am new',
       },
     ]);
@@ -95,8 +98,8 @@ export function TaskSidePageView(): JSX.Element {
         <React.Fragment key={section.id}>
           <Divider />
           <TaskSectionView
-            section={{ text: section.text, tasks: section.tasks }}
-            onSectionChange={(newSection: Omit<TaskSection, 'id'>) =>
+            section={{ text: section.text, checkpoints: section.checkpoints }}
+            onSectionChange={(newSection: Omit<StageSection, 'id'>) =>
               onSectionChange(section.id, newSection)
             }
             onSectionDelete={() => onSectionDelete(section.id)}

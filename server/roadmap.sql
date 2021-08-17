@@ -24,9 +24,13 @@ CREATE TABLE checkpoints(
   FOREIGN KEY (stage_section_id) REFERENCES stage_sections(stage_section_id)
 );
 
---  add roadmap
-insert into roadmaps (roadmap_id, title) VALUES(uuid_generate_v4(), 'roadmap1');
-insert into roadmaps (roadmap_id, title) VALUES(uuid_generate_v4(), 'roadmap2');
+--  add roadmap maps to post
+INSERT INTO roadmaps (roadmap_id, title) VALUES(uuid_generate_v4(), 'roadmap1');
+INSERT INTO roadmaps (roadmap_id, title) VALUES(uuid_generate_v4(), 'roadmap2');
+-- delete roadmap maps to DELETE
+DELETE FROM roadmaps WHERE id = ${target_id}
+-- update roadmap
+ALTER TABLE roadmap SET title = ${new_title} WHERE id = ${target_id};
 
 -- add stages
 insert into stages (stage_id, title, roadmap_id) VALUES(uuid_generate_v4(), 'stage1', '1');
@@ -57,3 +61,4 @@ INNER JOIN stages
     using(stage_id) 
 INNER JOIN roadmaps 
     using(roadmap_id);
+

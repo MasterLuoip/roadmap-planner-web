@@ -26,6 +26,12 @@ const getRoadmaps = async (request, response) => {
   response.status(200).json(results);
 };
 
+const addRoadmap = async (request, response) => {
+  await queryToAddRoadmap(request.body);
+  console.log('sucessed');
+  response.status(200).send('Sucessed');
+};
+
 async function queryRoadmaps() {
   try {
     let roadmaps = await (
@@ -59,6 +65,13 @@ async function queryRoadmaps() {
   }
 }
 
+async function queryToAddRoadmap(newRoadmap) {
+  await pool.query(
+    `INSERT INTO roadmaps (roadmap_id, title) VALUES('${newRoadmap.id}', '${newRoadmap.title}')`
+  );
+}
+
 module.exports = {
   getRoadmaps,
+  addRoadmap,
 };

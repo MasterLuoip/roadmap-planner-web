@@ -9,7 +9,8 @@ export type roadmapState = {
   activeRoadmap: RoadmapType | null;
   activeRoadmapItem: StageType | null;
 };
-
+// Need to normolise state here
+// https://redux.js.org/tutorials/essentials/part-6-performance-normalization#managing-normalized-state-with-createentityadapter
 const initialState: roadmapState = {
   roadmapList: [],
   activeRoadmap: null,
@@ -24,6 +25,7 @@ export const roadmapSlice = createSlice({
     getRoadmapAsync: () => {
       // just a trigger to call saga
     },
+    addNewRoadmapAsync: (state, { payload }: { payload: RoadmapType }) => {},
     updateRoadmaps: (state, { payload }: { payload: RoadmapType[] }) => {
       state.roadmapList = payload;
     },
@@ -157,6 +159,7 @@ export const roadmapSlice = createSlice({
 // actions
 export const {
   getRoadmapAsync,
+  addNewRoadmapAsync,
   updateRoadmaps,
   setActiveRoadmapItem,
   setActiveRoadmap,

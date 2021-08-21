@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
 import {
   addNewRoadmap,
+  addNewRoadmapAsync,
   changeRoadMapName,
   deleteARoadMap,
   selectActiveRoadmap,
@@ -30,7 +31,7 @@ export function MapBar(): JSX.Element {
 
   const onNewRoadmapClick = () => {
     dispatch(
-      addNewRoadmap({ id: nanoid(), title: 'new roadmap', stages: [] })
+      addNewRoadmapAsync({ id: nanoid(), title: 'new roadmap', stages: [] })
     );
   };
   const onMapItemClick = (id: string) => {

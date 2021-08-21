@@ -62,3 +62,9 @@ INNER JOIN stages
 INNER JOIN roadmaps 
     using(roadmap_id);
 
+-- single table
+CREATE TABLE roadmaps_new(
+  roadmap_id UUID NOT NULL PRIMARY KEY,
+  title VARCHAR(200) NOT NULL,
+  value jsonb
+);

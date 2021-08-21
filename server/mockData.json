@@ -1,0 +1,34 @@
+[
+  {
+    "id": "f53cc748-1539-4b0f-9e32-757917fad88c",
+    "title": "roadmap1",
+    "stages": [
+      {
+        "id": "f53cc748-1539-4b0f-9e32-757917fad88c",
+        "title": "stage1",
+        "sections": [
+          {
+            "id": "24a438a1-fd64-4ca9-90cd-d40ae5785261",
+            "content": "stage section1",
+            "checkpoints": [
+              {
+                "id": "27f55463-4ee2-4921-8da0-61ab0c7d467b",
+                "content": "new content"
+              }
+            ]
+          },
+          {
+            "id": "b4b1e7be-8263-465c-a4f0-df1d406a9b8d",
+            "content": "stage section2",
+            "checkpoints": []
+          }
+        ]
+      },
+      {
+        "id": "ab0372a4-48e7-4843-bbe7-ed2465001711",
+        "title": "stage2",
+        "sections": []
+      }
+    ]
+  }
+]
